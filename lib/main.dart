@@ -4,6 +4,7 @@ import 'main_screens/customer_home.dart';
 
 void main() {
   runApp(const MyApp());
+  // This is main app
 }
 
 class MyApp extends StatelessWidget {
