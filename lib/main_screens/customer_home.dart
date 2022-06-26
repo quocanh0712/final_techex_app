@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({Key? key}) : super(key: key);
 
@@ -10,7 +12,7 @@ class CustomerHomeScreen extends StatefulWidget {
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _tabs = const [
-    Center(child: Text('home screen')),
+    HomeScreen(),
     Center(child: Text('category screen')),
     Center(child: Text('stores screen')),
     Center(child: Text('cart screen')),
@@ -23,9 +25,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.yellow,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+        selectedItemColor: Color.fromARGB(154, 47, 97, 234),
+        unselectedItemColor: Color.fromARGB(154, 47, 97, 234),
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
