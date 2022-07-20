@@ -19,6 +19,20 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    for (var element in items) {
+      element.isSelected = false;
+    }
+    setState(() {
+      items[0].isSelected = true;
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -45,12 +59,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                for (var element in items) {
+                _pageController.animateToPage(index,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.decelerate); // jump to page animation
+                /* for (var element in items) {
                   element.isSelected = false;
                 }
                 setState(() {
                   items[index].isSelected = true;
-                });
+                }); */
               },
               child: Container(
                 color: items[index].isSelected == true
@@ -68,9 +85,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget categView(Size size) {
     return Container(
-        height: size.height * 0.8,
-        width: size.width * 0.8,
-        color: Colors.white);
+      height: size.height * 0.8,
+      width: size.width * 0.8,
+      color: Colors.white,
+      child: PageView(
+        controller: _pageController,
+        onPageChanged: (value) {
+          for (var element in items) {
+            element.isSelected = false;
+          }
+          setState(() {
+            items[value].isSelected = true;
+          });
+        },
+        scrollDirection: Axis.vertical,
+        children: const [
+          Center(child: Text('phone & accessories')),
+          Center(child: Text('electronic device')),
+          Center(child: Text('computer & laptop')),
+          Center(child: Text('camera & camcorder')),
+          Center(child: Text('smart watch')),
+          Center(child: Text('household appliances')),
+        ],
+      ),
+    );
   }
 }
 
