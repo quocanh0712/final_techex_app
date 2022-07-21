@@ -2,13 +2,17 @@ import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:final_techex_app/widgets/fake_search.dart';
 import 'package:flutter/material.dart';
 
+import '../categories/phone_category.dart';
+
 List<ItemsData> items = [
-  ItemsData(lable: 'phone & accessories'),
-  ItemsData(lable: 'electronic device'),
-  ItemsData(lable: 'computer & laptop'),
-  ItemsData(lable: 'camera & camcorder'),
-  ItemsData(lable: 'smart watch'),
-  ItemsData(lable: 'household appliances'),
+  ItemsData(lable: 'Phone & Accessories'),
+  ItemsData(lable: 'Electronic Device'),
+  ItemsData(lable: 'Computer & Laptop'),
+  ItemsData(lable: 'Camera & Camcorder'),
+  ItemsData(lable: 'Smart Watch'),
+  ItemsData(lable: 'Household Appliances'),
+  ItemsData(lable: ''),
+  ItemsData(lable: ''),
 ];
 
 class CategoryScreen extends StatefulWidget {
@@ -27,7 +31,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
       element.isSelected = false;
     }
     setState(() {
-      items[0].isSelected = true;
+      items[0].isSelected =
+          true; // Set 0 for item to return the new category view when change to another tab and turn back
     });
     // TODO: implement initState
     super.initState();
@@ -39,7 +44,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromARGB(255, 31, 129, 117),
           title: const FakeSearch(),
         ),
         body: Stack(
@@ -71,11 +76,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
               },
               child: Container(
                 color: items[index].isSelected == true
-                    ? Colors.white
-                    : Colors.grey.shade300,
+                    ? Color.fromARGB(255, 125, 209, 198)
+                    : Colors.white,
                 height: 100,
                 child: Center(
-                  child: Text(items[index].lable),
+                  child: Text(items[index].lable,
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 31, 129, 117))),
                 ),
               ),
             );
@@ -100,12 +107,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
         },
         scrollDirection: Axis.vertical,
         children: const [
-          Center(child: Text('phone & accessories')),
-          Center(child: Text('electronic device')),
-          Center(child: Text('computer & laptop')),
-          Center(child: Text('camera & camcorder')),
-          Center(child: Text('smart watch')),
-          Center(child: Text('household appliances')),
+          PhoneCategory(),
+          Center(child: Text('Electronic Device')),
+          Center(child: Text('Computer & Laptop')),
+          Center(child: Text('Camera & Camcorder')),
+          Center(child: Text('Smart Watch')),
+          Center(child: Text('Household Appliances')),
         ],
       ),
     );
