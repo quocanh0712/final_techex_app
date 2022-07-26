@@ -1,6 +1,8 @@
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:flutter/material.dart';
 
+import '../minor_screen/subcateg_products.dart';
+
 /*List<String> imagePhone = [
   'images/phone/image0.jpeg',
   'images/phone/image1.jpeg',
@@ -51,21 +53,32 @@ class PhoneCategory extends StatelessWidget {
             crossAxisSpacing: 15,
             crossAxisCount: 3,
             children: List.generate(phoneandaccessories.length, (index) {
-              return Column(
-                children: [
-                  SizedBox(
-                    height: 70,
-                    width: 70,
-                    child: Image(
-                      image: AssetImage(
-                          'images/phone/image$index.jpeg'), //the index is following the image index
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SubCategoryProducts(
+                                maincategName: 'phoneandaccessories',
+                                subcategName: phoneandaccessories[index],
+                              )));
+                },
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      width: 70,
+                      child: Image(
+                        image: AssetImage(
+                            'images/phone/image$index.jpeg'), //the index is following the image index
+                      ),
                     ),
-                  ),
-                  Text(
-                    phoneandaccessories[index],
-                    textAlign: TextAlign.center,
-                  )
-                ],
+                    Text(
+                      phoneandaccessories[index],
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               );
             }),
           ),

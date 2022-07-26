@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const FakeSearch(), // Extract from inkwell to fakesearch widgets
             bottom: const TabBar(
               isScrollable: true,
-              indicatorColor: Colors.black,
+              indicatorColor: Colors.white,
               indicatorWeight: 4,
               tabs: [
                 RepeatedTab(lable: 'Phone & Accessories'),
