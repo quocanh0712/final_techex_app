@@ -8,16 +8,16 @@ List<String> maincategory = [
 ];
 
 List<String> phoneandaccessories = [
-  'phone',
-  'tablet',
-  'backup charger',
-  'battery and charger',
-  'phone case , sticker',
-  'screen protector',
-  'memory card',
-  'sim',
-  'landline',
-  'other',
+  'Phone',
+  'Tablet',
+  'Phone Case , Sticker',
+  'Battery and Charger',
+  'Backup charger',
+  'Screen Protector',
+  'Memory card',
+  'Sim',
+  'Landline',
+  'Other',
 ];
 
 List<String> electronicdevice = [
