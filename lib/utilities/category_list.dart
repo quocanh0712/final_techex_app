@@ -8,62 +8,60 @@ List<String> maincategory = [
 ];
 
 List<String> phoneandaccessories = [
-  'phone',
-  'tablet',
-  'backup charger',
-  'battery and charger',
-  'phone case , sticker',
-  'screen protector',
-  'memory card',
-  'sim',
-  'landline',
-  'other',
+  'Phone',
+  'Tablet',
+  'Phone Case , Sticker',
+  'Battery and Charger',
+  'Backup charger',
+  'Screen Protector',
+  'Memory card',
+  'Sim',
+  'Landline',
+  'Other',
 ];
 
 List<String> electronicdevice = [
-  'game console',
-  'console accessories'
-      'loudspeaker',
-  'earphone',
-  'headphone',
-  'television',
-  'game disc',
-  'television accessories'
+  'Game Console',
+  'Console Accessories',
+  'Loudspeaker',
+  'Earphone',
+  'Headphone',
+  'Television',
+  'Game Disc',
+  'Television Accessories'
 ];
 
 List<String> computerandlaptop = [
-  'computer',
-  'laptop',
-  'screen',
-  'storage device',
-  'computer components',
-  'network equipment',
-  'printer, scanner, projector',
-  'Computer accessories',
-  'other',
+  'Computer',
+  'Laptop',
+  'Screen',
+  'Storage Device',
+  'Computer Components',
+  'Network Equipment',
+  'Printer, Scanner',
+  'Computer Accessories',
+  'Other',
 ];
 
 List<String> cameraandcamcorder = [
-  'camera',
-  'camcorder',
-  'surveillance cameras and system cameras',
-  'cam memory card',
-  'lens',
-  'camera accessories',
-  'flycam',
+  'Camera',
+  'Camcorder',
+  'Surveillance Camera ',
+  'Memory card',
+  'Lens',
+  'Camera Accessories',
+  'Flycam',
 ];
 
 List<String> smartwatch = [
-  'smart watch',
-  'smart watch accessories',
-  'smart watch screen protector'
+  'Smart Watch',
+  'Smart Watch Accessories',
+  'Screen Protector'
 ];
 
 List<String> householdappliances = [
-  'kitchen utensils',
-  'vacuum cleaners and cleaning equipment',
-  'fan and air conditioner',
-  'electric stove',
-  'clothing care equipment',
-  'other',
+  'Kitchen Utensils',
+  'Vacuum Cleaners ',
+  'Fan and Air conditioner',
+  'Clothing Care Equipment',
 ];
