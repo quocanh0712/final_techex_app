@@ -1,3 +1,8 @@
+import 'package:final_techex_app/categories/camera_category.dart';
+import 'package:final_techex_app/categories/compute_category.dart';
+import 'package:final_techex_app/categories/electronic_category.dart';
+import 'package:final_techex_app/categories/householdappliances_category.dart';
+import 'package:final_techex_app/categories/smartwatch_category.dart';
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:final_techex_app/widgets/fake_search.dart';
 import 'package:flutter/material.dart';
@@ -108,11 +113,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
         scrollDirection: Axis.vertical,
         children: const [
           PhoneCategory(),
-          Center(child: Text('Electronic Device')),
-          Center(child: Text('Computer & Laptop')),
-          Center(child: Text('Camera & Camcorder')),
-          Center(child: Text('Smart Watch')),
-          Center(child: Text('Household Appliances')),
+          ElectronicDeviceCategory(),
+          ComputerAndLaptopCategory(),
+          CameraAndCamcorderCategory(),
+          SmartWatchCategory(),
+          HouseholdAppliancesCategory(),
         ],
       ),
     );
