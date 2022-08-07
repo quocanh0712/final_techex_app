@@ -1,4 +1,5 @@
 import 'package:final_techex_app/main_screens/category.dart';
+import 'package:final_techex_app/main_screens/stores.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -15,7 +16,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   final List<Widget> _tabs = const [
     HomeScreen(),
     CategoryScreen(),
-    Center(child: Text('stores screen')),
+    StoresScreen(),
     Center(child: Text('cart screen')),
     Center(child: Text('profile screen')),
   ];
