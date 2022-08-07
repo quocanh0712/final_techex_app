@@ -41,9 +41,10 @@ class _CartScreenState extends State<CartScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CustomerHomeScreen()));
+                          builder: (context) =>
+                              const CustomerHomeScreen())); //forward to homescreen
                 },
-                child: const Text('countinue shopping',
+                child: const Text('continue shopping',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
               ),
             ),
