@@ -22,13 +22,32 @@ class SubCategoryProducts extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          subcategName,
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: AppBarTitle(title: subcategName),
       ),
       body: Center(
         child: Text(maincategName),
+      ),
+    );
+  }
+}
+
+class AppBarTitle extends StatelessWidget {
+  const AppBarTitle({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontFamily: 'Monda',
+        fontSize: 24,
+        letterSpacing: 1.5,
       ),
     );
   }
