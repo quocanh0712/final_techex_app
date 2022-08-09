@@ -1,4 +1,6 @@
+import 'package:final_techex_app/main_screens/cart.dart';
 import 'package:final_techex_app/main_screens/category.dart';
+import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
 import 'package:flutter/material.dart';
 
@@ -17,8 +19,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     HomeScreen(),
     CategoryScreen(),
     StoresScreen(),
-    Center(child: Text('cart screen')),
-    Center(child: Text('profile screen')),
+    CartScreen(),
+    ProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {
