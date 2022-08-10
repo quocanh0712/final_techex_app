@@ -1,4 +1,5 @@
 import 'package:final_techex_app/main_screens/category.dart';
+import 'package:final_techex_app/main_screens/dashboard.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,7 @@ class _SupplierHomeScreenState extends State<SupplierHomeScreen> {
     HomeScreen(),
     CategoryScreen(),
     StoresScreen(),
-    Center(
-      child: Text('Dashboard'),
-    ),
+    DashboardScreen(),
     Center(
       child: Text('Upload'),
     ),
