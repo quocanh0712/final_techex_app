@@ -16,7 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('images/inapp/welcomescreen.jpeg'),
+                image: AssetImage('images/inapp/background.jpeg'),
                 fit: BoxFit.cover)),
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
