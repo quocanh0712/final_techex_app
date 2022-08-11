@@ -2,6 +2,8 @@ import 'package:final_techex_app/main_screens/customer_home.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/button.dart';
+
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 
@@ -71,17 +73,11 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ],
             ),
-            Container(
-              height: 35,
-              width: MediaQuery.of(context).size.width * 0.30,
-              decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(25)),
-              child: MaterialButton(
-                onPressed: () {},
-                child: const Text('CHECK OUT',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ),
+            Button(
+              width: 0.30,
+              label: 'CHECK OUT',
+              onPressed: () {},
+              buttonColor: Colors.yellow,
             ),
           ],
         ),
