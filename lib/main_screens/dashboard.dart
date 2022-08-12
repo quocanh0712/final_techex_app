@@ -1,3 +1,10 @@
+import 'package:final_techex_app/dashboard_components/edit_profile.dart';
+import 'package:final_techex_app/dashboard_components/manage_products.dart';
+import 'package:final_techex_app/dashboard_components/my_store.dart';
+import 'package:final_techex_app/dashboard_components/supplier_balance.dart';
+import 'package:final_techex_app/dashboard_components/supplier_orders.dart';
+import 'package:final_techex_app/dashboard_components/supplier_statics.dart';
+import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +24,15 @@ List<IconData> icons = [
   Icons.settings,
   Icons.attach_money,
   Icons.show_chart,
+];
+
+List<Widget> pages = [
+  MyStore(),
+  SupplierOrders(),
+  EditBusiness(),
+  ManageProducts(),
+  BalanceScreen(),
+  StaticsScreen(),
 ];
 
 class DashboardScreen extends StatelessWidget {
@@ -47,26 +63,32 @@ class DashboardScreen extends StatelessWidget {
           crossAxisSpacing: 50,
           crossAxisCount: 2,
           children: List.generate(6, (index) {
-            return Card(
-              color: Color.fromARGB(255, 31, 129, 117),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Icon(
-                    icons[index],
-                    color: Colors.white,
-                    size: 50,
-                  ),
-                  Text(
-                    label[index].toUpperCase(),
-                    style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                        fontFamily: 'Monda'),
-                  ),
-                ],
+            return InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => pages[index]));
+              },
+              child: Card(
+                color: Color.fromARGB(255, 31, 129, 117),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(
+                      icons[index],
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                    Text(
+                      label[index].toUpperCase(),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                          fontFamily: 'Monda'),
+                    ),
+                  ],
+                ),
               ),
             );
           }),
