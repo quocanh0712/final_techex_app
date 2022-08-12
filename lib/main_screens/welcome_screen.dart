@@ -1,3 +1,4 @@
+import 'package:final_techex_app/main_screens/supplier_home.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/button.dart';
@@ -82,7 +83,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       children: [
                         Button(
                           label: 'Log In',
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/supplier_home');
+                          },
                           width: 0.25,
                           buttonColor: Colors.white,
                         ),
@@ -118,7 +122,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           padding: const EdgeInsets.only(left: 8),
                           child: Button(
                             label: 'Log In',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/customer_home');
+                            },
                             width: 0.25,
                             buttonColor: Colors.white,
                           ),
