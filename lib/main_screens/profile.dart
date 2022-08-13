@@ -1,3 +1,7 @@
+import 'package:final_techex_app/customer_screens/customer_orders.dart';
+import 'package:final_techex_app/customer_screens/wishlist.dart';
+import 'package:final_techex_app/main_screens/cart.dart';
+import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -96,7 +100,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           color: Colors.yellow, fontSize: 20)),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const CartScreen(
+                                            back: AppBarBackButton())));
+                              },
                             ),
                           ),
                           Container(
@@ -111,7 +121,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           color: Colors.yellow, fontSize: 20)),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CustomerOrders()));
+                              },
                             ),
                           ),
                           Container(
@@ -131,7 +147,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           color: Colors.yellow, fontSize: 20)),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const WishlistScreen()));
+                              },
                             ),
                           ),
                         ],
