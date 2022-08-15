@@ -1,4 +1,3 @@
-import 'package:final_techex_app/main_screens/supplier_home.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/button.dart';
@@ -33,7 +32,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Container(
                       height: 100.0,
                       width: 100.0,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('images/inapp/icononly.png'),
                           fit: BoxFit.fill,
@@ -132,7 +131,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         Button(
                           label: 'Sign Up',
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, '/customer_signup');
+                          },
                           width: 0.25,
                           buttonColor: Colors.white,
                         ),

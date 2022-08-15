@@ -23,7 +23,7 @@ class Button extends StatelessWidget {
           color: buttonColor, borderRadius: BorderRadius.circular(25)),
       child: MaterialButton(
         onPressed: onPressed,
-        child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+        child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }

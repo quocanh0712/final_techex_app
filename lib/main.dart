@@ -1,3 +1,4 @@
+import 'package:final_techex_app/auth/customer_signup.dart';
 import 'package:final_techex_app/main_screens/customer_home.dart';
 import 'package:final_techex_app/main_screens/supplier_home.dart';
 import 'package:final_techex_app/main_screens/welcome_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/welcome_screen': (context) => const WelcomeScreen(),
         '/customer_home': (context) => const CustomerHomeScreen(),
         '/supplier_home': (context) => const SupplierHomeScreen(),
+        '/customer_signup': (context) => const CustomerRegister(),
       },
     );
   }
