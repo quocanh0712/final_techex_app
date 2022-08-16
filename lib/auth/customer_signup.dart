@@ -72,10 +72,11 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       const SizedBox(height: 6),
                       Container(
                         decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 31, 129, 117),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15))),
+                          color: Color.fromARGB(255, 31, 129, 117),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                        ),
                         child: IconButton(
                           icon: const Icon(Icons.photo_album,
                               color: Colors.white),
