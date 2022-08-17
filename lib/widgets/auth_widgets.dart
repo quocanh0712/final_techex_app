@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class AuthSignUpButton extends StatelessWidget {
   final String signupButtonLabel;
   final Function() onPressed;
@@ -107,11 +108,3 @@ var textFormDecoration = InputDecoration(
     borderRadius: BorderRadius.circular(25),
   ),
 );
-
-extension EmailValidator on String {
-  bool isValidEmail() {
-    return RegExp(
-            r'^([a-zA-Z0-9]+)([\-\_\.]*)([a-zA-Z0-9]*)([@])([a-zA-Z0-9]{2,})([\.][a-zA-Z]{2,3})$')
-        .hasMatch(this);
-  }
-}
