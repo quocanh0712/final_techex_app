@@ -14,7 +14,7 @@ class SubCategoryProducts extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 31, 129, 117),
+        backgroundColor: const Color.fromARGB(255, 31, 129, 117),
         leading: const AppBarBackButton(),
         title: AppBarTitle(title: subcategName),
       ),

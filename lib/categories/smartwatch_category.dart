@@ -1,7 +1,6 @@
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:flutter/material.dart';
 
-import '../minor_screen/subcateg_products.dart';
 import '../widgets/categ_widgets.dart';
 
 class SmartWatchCategory extends StatelessWidget {
@@ -45,7 +44,7 @@ class SmartWatchCategory extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 0,
             right: 0,
             child: SliderBar(),

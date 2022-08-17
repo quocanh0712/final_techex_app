@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../widgets/button.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  final Widget? back;
+  const CartScreen({Key? key, this.back}) : super(key: key);
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -18,6 +19,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 31, 129, 117),
+        leading: widget.back,
         title: const AppBarTitle(title: 'Cart'),
         actions: [
           IconButton(
@@ -40,11 +42,10 @@ class _CartScreenState extends State<CartScreen> {
               child: MaterialButton(
                 minWidth: MediaQuery.of(context).size.width * 0.5,
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const CustomerHomeScreen())); //forward to homescreen
+                  Navigator.canPop(context)
+                      ? Navigator.pop(context)
+                      : Navigator.pushReplacementNamed(
+                          context, '/customer_home'); //forward to homescreen
                 },
                 child: const Text('continue shopping',
                     style: TextStyle(fontSize: 18, color: Colors.black)),

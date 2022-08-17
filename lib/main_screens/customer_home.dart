@@ -2,6 +2,7 @@ import 'package:final_techex_app/main_screens/cart.dart';
 import 'package:final_techex_app/main_screens/category.dart';
 import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
+import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
