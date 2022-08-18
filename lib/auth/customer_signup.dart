@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/auth_widgets.dart';
 
+//final TextEditingController _nameController = TextEditingController();
+//final TextEditingController _emailController = TextEditingController();
+//final TextEditingController _passwordController = TextEditingController();
+
 class CustomerRegister extends StatefulWidget {
   const CustomerRegister({Key? key}) : super(key: key);
 
@@ -12,6 +16,9 @@ class CustomerRegister extends StatefulWidget {
 }
 
 class _CustomerRegisterState extends State<CustomerRegister> {
+  late String name;
+  late String email;
+  late String password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool passwordVisible = false;
   @override
@@ -89,6 +96,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                           }
                           return null;
                         },
+                        onChanged: (value) {
+                          name = value;
+                        },
+                        //controller: _nameController,
                         decoration: textFormDecoration.copyWith(
                           labelText: 'Full Name',
                           hintText: 'Enter your full name',
@@ -108,6 +119,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                           }
                           return null;
                         },
+                        onChanged: (value) {
+                          email = value;
+                        },
+                        //controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: textFormDecoration.copyWith(
                           labelText: 'Email Address',
@@ -124,6 +139,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                           }
                           return null;
                         },
+                        onChanged: (value) {
+                          password = value;
+                        },
+                        //controller: _passwordController,
                         obscureText: passwordVisible,
                         decoration: textFormDecoration.copyWith(
                           suffixIcon: IconButton(
@@ -152,6 +171,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           print('valid');
+
+                          print(name);
+                          print(email);
+                          print(password);
                         } else {
                           print('not valid');
                         }
