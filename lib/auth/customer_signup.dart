@@ -1,13 +1,11 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_field
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../widgets/auth_widgets.dart';
 import '../widgets/snackbar.dart';
-
-//final TextEditingController _nameController = TextEditingController();
-//final TextEditingController _emailController = TextEditingController();
-//final TextEditingController _passwordController = TextEditingController();
 
 class CustomerRegister extends StatefulWidget {
   const CustomerRegister({Key? key}) : super(key: key);
@@ -24,6 +22,50 @@ class _CustomerRegisterState extends State<CustomerRegister> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
   bool passwordVisible = false;
+
+  final ImagePicker _picker = ImagePicker();
+
+  XFile? _imageFile;
+  dynamic _pickImageError;
+
+  void _pickImageFromCamera() async {
+    try {
+      final pickedImage = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxHeight: 300,
+        maxWidth: 300,
+        imageQuality: 95,
+      );
+      setState(() {
+        _imageFile = pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+      print(_pickImageError);
+    }
+  }
+
+  void _pickImageFromGallery() async {
+    try {
+      final pickedImage = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxHeight: 300,
+        maxWidth: 300,
+        imageQuality: 95,
+      );
+      setState(() {
+        _imageFile = pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+      print(_pickImageError);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -43,12 +85,19 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       const AuthHeaderLabel(headerLabel: 'Sign Up'),
                       Row(
                         children: [
-                          const Padding(
-                            padding: const EdgeInsets.symmetric(
+                          Padding(
+                            padding: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
                             child: CircleAvatar(
-                              radius: 60,
-                              backgroundColor: Colors.green,
+                              backgroundColor: Colors.black,
+                              radius: 70,
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundColor: Colors.green,
+                                backgroundImage: _imageFile == null
+                                    ? null
+                                    : FileImage(File(_imageFile!.path)),
+                              ),
                             ),
                           ),
                           Column(
@@ -66,7 +115,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    print('take picture from camera');
+                                    _pickImageFromCamera();
                                   },
                                 ),
                               ),
@@ -84,7 +133,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    print('take picture from gallery');
+                                    _pickImageFromGallery();
                                   },
                                 ),
                               ),
@@ -167,7 +216,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                         ),
                       ),
                       HaveAccount(
-                        haveAccount: 'already have account ?',
+                        haveAccount: 'Already have account ?',
                         actionLabel: 'Log In',
                         onPressed: () {},
                       ),
@@ -175,11 +224,20 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                         mainButtonLabel: 'Sign Up',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            print('valid');
-
-                            print(name);
-                            print(email);
-                            print(password);
+                            if (_imageFile != null) {
+                              print('Already upload your profile picture');
+                              print('valid');
+                              print(name);
+                              print(email);
+                              print(password);
+                              _formKey.currentState!.reset();
+                              setState(() {
+                                _imageFile = null;
+                              });
+                            } else {
+                              MyMessageHandler.showSnackBar(_scaffoldKey,
+                                  'Please choose your profile picture');
+                            }
                           } else {
                             MyMessageHandler.showSnackBar(
                                 _scaffoldKey, 'Please fill all fields');

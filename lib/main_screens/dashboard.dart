@@ -4,7 +4,6 @@ import 'package:final_techex_app/dashboard_components/my_store.dart';
 import 'package:final_techex_app/dashboard_components/supplier_balance.dart';
 import 'package:final_techex_app/dashboard_components/supplier_orders.dart';
 import 'package:final_techex_app/dashboard_components/supplier_statics.dart';
-import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -27,12 +26,12 @@ List<IconData> icons = [
 ];
 
 List<Widget> pages = [
-  MyStore(),
-  SupplierOrders(),
-  EditBusiness(),
-  ManageProducts(),
-  BalanceScreen(),
-  StaticsScreen(),
+  const MyStore(),
+  const SupplierOrders(),
+  const EditBusiness(),
+  const ManageProducts(),
+  const BalanceScreen(),
+  const StaticsScreen(),
 ];
 
 class DashboardScreen extends StatelessWidget {
@@ -43,7 +42,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 31, 129, 117),
+        backgroundColor: const Color.fromARGB(255, 31, 129, 117),
         title: const AppBarTitle(title: 'Dashboard'),
         actions: [
           IconButton(
@@ -69,7 +68,7 @@ class DashboardScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => pages[index]));
               },
               child: Card(
-                color: Color.fromARGB(255, 31, 129, 117),
+                color: const Color.fromARGB(255, 31, 129, 117),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

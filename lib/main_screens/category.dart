@@ -3,7 +3,6 @@ import 'package:final_techex_app/categories/compute_category.dart';
 import 'package:final_techex_app/categories/electronic_category.dart';
 import 'package:final_techex_app/categories/householdappliances_category.dart';
 import 'package:final_techex_app/categories/smartwatch_category.dart';
-import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:final_techex_app/widgets/fake_search.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +38,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       items[0].isSelected =
           true; // Set 0 for item to return the new category view when change to another tab and turn back
     });
-    // TODO: implement initState
+
     super.initState();
   }
 
@@ -49,7 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 31, 129, 117),
+          backgroundColor: const Color.fromARGB(255, 31, 129, 117),
           title: const FakeSearch(),
         ),
         body: Stack(
@@ -81,13 +80,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
               },
               child: Container(
                 color: items[index].isSelected == true
-                    ? Color.fromARGB(255, 125, 209, 198)
+                    ? const Color.fromARGB(255, 125, 209, 198)
                     : Colors.white,
                 height: 100,
                 child: Center(
                   child: Text(items[index].lable,
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 31, 129, 117))),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 31, 129, 117))),
                 ),
               ),
             );

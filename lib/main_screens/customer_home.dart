@@ -2,7 +2,6 @@ import 'package:final_techex_app/main_screens/cart.dart';
 import 'package:final_techex_app/main_screens/category.dart';
 import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
-import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -31,7 +30,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         elevation: 0,
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
-        backgroundColor: Color.fromARGB(255, 31, 129, 117),
+        backgroundColor: const Color.fromARGB(255, 31, 129, 117),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
