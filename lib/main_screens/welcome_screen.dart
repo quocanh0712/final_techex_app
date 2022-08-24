@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 import '../widgets/button.dart';
@@ -10,6 +12,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool processing = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,15 +165,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         child: const Image(
                             image: AssetImage('images/inapp/facebooklogo.png')),
                       ),
-                      GoogleFacebookLogin(
-                        label: 'Guest',
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.person,
-                          size: 55,
-                          color: Colors.white,
-                        ),
-                      ),
+                      processing == true
+                          ? CircularProgressIndicator()
+                          : GoogleFacebookLogin(
+                              label: 'Guest',
+                              onPressed: () async {
+                                CircularProgressIndicator();
+                                setState(() {
+                                  processing = true;
+                                });
+
+                                await FirebaseAuth.instance.signInAnonymously();
+                                Navigator.pushReplacementNamed(
+                                    context, '/customer_home');
+                              },
+                              child: const Icon(
+                                Icons.person,
+                                size: 55,
+                                color: Colors.white,
+                              ),
+                            ),
                     ],
                   ),
                 ),

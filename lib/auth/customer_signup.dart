@@ -86,7 +86,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
                             child: CircleAvatar(
                               backgroundColor: Colors.black,
