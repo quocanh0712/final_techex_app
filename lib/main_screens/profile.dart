@@ -2,7 +2,11 @@ import 'package:final_techex_app/customer_screens/customer_orders.dart';
 import 'package:final_techex_app/customer_screens/wishlist.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/alert_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -220,9 +224,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             RepeatedListTile(
                               title: 'Logout',
                               icon: Icons.logout,
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/welcome_screen');
+                              onPressed: () async {
+                                MyAlertDialog.showDialog(
+                                  context: context,
+                                  title: 'Log Out',
+                                  content: 'Are you sure to log out ?',
+                                  tabYes: () async {
+                                    Navigator.pop(context);
+                                    await FirebaseAuth.instance.signOut();
+                                    Navigator.pushReplacementNamed(
+                                        context, '/welcome_screen');
+                                  },
+                                  tabNo: () {
+                                    Navigator.pop(context);
+                                  },
+                                );
                               },
                             ),
                           ],
