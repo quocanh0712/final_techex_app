@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import '../widgets/auth_widgets.dart';
 import '../widgets/snackbar.dart';
 
-class CustomerLogin extends StatefulWidget {
-  const CustomerLogin({Key? key}) : super(key: key);
+class SupplierLogin extends StatefulWidget {
+  const SupplierLogin({Key? key}) : super(key: key);
 
   @override
-  State<CustomerLogin> createState() => _CustomerLoginState();
+  State<SupplierLogin> createState() => _SupplierLoginState();
 }
 
-class _CustomerLoginState extends State<CustomerLogin> {
+class _SupplierLoginState extends State<SupplierLogin> {
   late String email;
   late String password;
 
@@ -32,7 +32,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
 
         _formKey.currentState!.reset();
 
-        Navigator.pushReplacementNamed(context, '/customer_home');
+        Navigator.pushReplacementNamed(context, '/supplier_home');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {

@@ -5,7 +5,10 @@ import 'package:final_techex_app/dashboard_components/supplier_balance.dart';
 import 'package:final_techex_app/dashboard_components/supplier_orders.dart';
 import 'package:final_techex_app/dashboard_components/supplier_statics.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/alert_dialog.dart';
 
 List<String> label = [
   'my store',
@@ -47,7 +50,19 @@ class DashboardScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/welcome_screen');
+                MyAlertDialog.showDialog(
+                  context: context,
+                  title: 'Log Out',
+                  content: 'Are you sure to log out ?',
+                  tabYes: () async {
+                    Navigator.pop(context);
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pushReplacementNamed(context, '/welcome_screen');
+                  },
+                  tabNo: () {
+                    Navigator.pop(context);
+                  },
+                );
               },
               icon: const Icon(
                 Icons.logout,

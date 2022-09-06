@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,9 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool processing = false;
+  CollectionReference customers =
+      FirebaseFirestore.instance.collection('customers');
+  late String _uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           label: 'Log In',
                           onPressed: () {
                             Navigator.pushReplacementNamed(
-                                context, '/supplier_home');
+                                context, '/supplier_login');
                           },
                           width: 0.25,
                           buttonColor: Colors.white,
@@ -96,7 +100,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           padding: const EdgeInsets.only(right: 8),
                           child: Button(
                             label: 'Sign Up',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, '/supplier_signup');
+                            },
                             width: 0.25,
                             buttonColor: Colors.white,
                           ),
@@ -166,16 +173,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             image: AssetImage('images/inapp/facebooklogo.png')),
                       ),
                       processing == true
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : GoogleFacebookLogin(
                               label: 'Guest',
                               onPressed: () async {
-                                CircularProgressIndicator();
+                                const CircularProgressIndicator();
                                 setState(() {
                                   processing = true;
                                 });
 
-                                await FirebaseAuth.instance.signInAnonymously();
+                                await FirebaseAuth.instance
+                                    .signInAnonymously()
+                                    .whenComplete(() async {
+                                  _uid = FirebaseAuth.instance.currentUser!.uid;
+                                  await customers.doc(_uid).set({
+                                    'name': '',
+                                    'email': '',
+                                    'profileimage': '',
+                                    'phone': '',
+                                    'address': '',
+                                    'cid': _uid,
+                                  });
+                                });
+
                                 Navigator.pushReplacementNamed(
                                     context, '/customer_home');
                               },
