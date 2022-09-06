@@ -289,7 +289,10 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                       HaveAccount(
                         haveAccount: 'Already have account ?',
                         actionLabel: 'Log In',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, '/customer_login');
+                        },
                       ),
                       processing == true
                           ? const CircularProgressIndicator()
