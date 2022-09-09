@@ -1,5 +1,12 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
+// ignore: avoid_web_libraries_in_flutter
+
+import 'dart:io';
+
 import 'package:final_techex_app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadProductScreen extends StatefulWidget {
   const UploadProductScreen({Key? key}) : super(key: key);
@@ -12,6 +19,73 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
+
+  late double price;
+  late int quantity;
+  late String productName;
+  late String productDesc;
+
+  final ImagePicker _picker = ImagePicker();
+
+  List<XFile>? imagesFileList = [];
+  dynamic _pickImageError;
+
+  void uploadProductImages() async {
+    try {
+      final uploadedImages = await _picker.pickMultiImage(
+        maxHeight: 300,
+        maxWidth: 300,
+        imageQuality: 95,
+      );
+      setState(() {
+        imagesFileList = uploadedImages!;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+      print(_pickImageError);
+    }
+  }
+
+  Widget previewsImages() {
+    if (imagesFileList!.isNotEmpty) {
+      return ListView.builder(
+          itemCount: imagesFileList!.length,
+          itemBuilder: (context, index) {
+            return Image.file(File(imagesFileList![index].path));
+          });
+    } else {
+      return Center(
+        child: Text('No photos selected !'),
+      );
+    }
+  }
+
+  void uploadProduct() {
+    if (_formKey.currentState!.validate()) {
+      // ignore: avoid_print
+      _formKey.currentState!.save();
+      if (imagesFileList!.isNotEmpty) {
+        print('images picked');
+        print('valid');
+        print(price);
+        print(quantity);
+        print(productName);
+        print(productDesc);
+        setState(() {
+          imagesFileList = [];
+        });
+        _formKey.currentState!.reset();
+      } else {
+        MyMessageHandler.showSnackBar(
+            _scaffoldKey, 'Please choose product images !');
+      }
+    } else {
+      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -25,6 +99,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -35,9 +110,11 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                         ),
                         height: MediaQuery.of(context).size.width * 0.5,
                         width: MediaQuery.of(context).size.width * 0.5,
-                        child: const Center(
-                          child: Text('No photos selected !'),
-                        ),
+                        child: imagesFileList != null
+                            ? previewsImages()
+                            : const Center(
+                                child: Text('No photos selected !'),
+                              ),
                       ),
                     ],
                   ),
@@ -50,38 +127,50 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter price !';
-                          } else if (value.isValidPrice() != true) {
-                            return 'Invalid price';
-                          }
-                          return null;
-                        },
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        decoration: textFormDecoration.copyWith(
-                          labelText: 'Price',
-                          hintText: '\$',
-                        )),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter price !';
+                            } else if (value.isValidPrice() != true) {
+                              return 'Invalid price';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            price = double.parse(value!);
+                          },
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          decoration: textFormDecoration.copyWith(
+                            labelText: 'Price',
+                            hintText: '\$',
+                          )),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter quantity !';
-                          } else if (value.isValidQuantity() != true) {
-                            return 'Not valid quantity';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: textFormDecoration.copyWith(
-                          labelText: 'Quantity',
-                          hintText: 'Add Quantity',
-                        )),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter quantity !';
+                            } else if (value.isValidQuantity() != true) {
+                              return 'Not valid quantity';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            quantity = int.parse(value!);
+                          },
+                          keyboardType: TextInputType.number,
+                          decoration: textFormDecoration.copyWith(
+                            labelText: 'Quantity',
+                            hintText: 'Add Quantity',
+                          )),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -91,6 +180,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             return 'Please enter product name !';
                           }
                           return null;
+                        },
+                        onSaved: (value) {
+                          productName = value!;
                         },
                         maxLength: 100,
                         maxLines: 2,
@@ -108,6 +200,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           }
                           return null;
                         },
+                        onSaved: (value) {
+                          productDesc = value!;
+                        },
                         maxLength: 900,
                         maxLines: 5,
                         decoration: textFormDecoration.copyWith(
@@ -123,23 +218,41 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            /* imagesFileList!.isEmpty
+                ? SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        setState(() {
+                          imagesFileList = [];
+                        });
+                      },
+                      backgroundColor: const Color.fromARGB(255, 33, 221, 96),
+                      child: const Icon(Icons.delete_outline_rounded),
+                    ),
+                  ), */
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: FloatingActionButton(
-                onPressed: () {},
+                onPressed: imagesFileList!.isEmpty
+                    ? () {
+                        uploadProductImages();
+                      }
+                    : () {
+                        setState(() {
+                          imagesFileList = [];
+                        });
+                      },
                 backgroundColor: const Color.fromARGB(255, 33, 221, 96),
-                child: const Icon(Icons.photo_library),
+                child: imagesFileList!.isEmpty
+                    ? Icon(Icons.photo_library)
+                    : Icon(Icons.delete_outline_rounded),
               ),
             ),
             FloatingActionButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  // ignore: avoid_print
-                  print('valid');
-                } else {
-                  MyMessageHandler.showSnackBar(
-                      _scaffoldKey, 'Please fill all fields');
-                }
+                uploadProduct();
               },
               backgroundColor: const Color.fromARGB(255, 33, 221, 96),
               child: const Icon(Icons.upload),
@@ -174,7 +287,7 @@ extension QuantityValidator on String {
 
 extension PriceValidator on String {
   bool isValidPrice() {
-    return RegExp(r'^((([1-9][0-9]*[\.])||([0][\.]))([0-9]{1,2}))$')
+    return RegExp(r'^((([1-9][0-9]*[\.]*)||([0][\.]*))([0-9]{1,2}))$')
         .hasMatch(this);
   }
 }
