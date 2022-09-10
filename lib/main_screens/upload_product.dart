@@ -165,21 +165,36 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
-                                DropdownButton(
-                                    iconSize: 40,
-                                    iconEnabledColor: Colors.red,
-                                    dropdownColor: Colors.white,
-                                    value: mainCategoryValue,
-                                    items: maincategory
-                                        .map<DropdownMenuItem<String>>((value) {
-                                      return DropdownMenuItem(
-                                        child: Text(value),
-                                        value: value,
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      selectMainCategory(value);
-                                    }),
+                                Container(
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 1.0, style: BorderStyle.solid),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        iconSize: 40,
+                                        iconEnabledColor: Colors.red,
+                                        dropdownColor: Colors.white,
+                                        value: mainCategoryValue,
+                                        items: maincategory
+                                            .map<DropdownMenuItem<String>>(
+                                                (value) {
+                                          return DropdownMenuItem(
+                                            child: Text(value),
+                                            value: value,
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? value) {
+                                          selectMainCategory(value);
+                                        }),
+                                  ),
+                                ),
                               ],
                             ),
                             Column(
@@ -189,27 +204,43 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
-                                DropdownButton(
-                                    iconSize: 40,
-                                    iconEnabledColor: Colors.red,
-                                    dropdownColor: Colors.white,
-                                    iconDisabledColor: Colors.black,
-                                    disabledHint:
-                                        Text('Select Category first '),
-                                    value: subCategoryValue,
-                                    items: subCategoryList
-                                        .map<DropdownMenuItem<String>>((value) {
-                                      return DropdownMenuItem(
-                                        child: Text(value),
-                                        value: value,
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? value) {
-                                      print(value);
-                                      setState(() {
-                                        subCategoryValue = value!;
-                                      });
-                                    })
+                                Container(
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 1.0, style: BorderStyle.solid),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton(
+                                        alignment: Alignment.center,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        iconSize: 40,
+                                        iconEnabledColor: Colors.red,
+                                        dropdownColor: Colors.white,
+                                        iconDisabledColor: Colors.black,
+                                        disabledHint:
+                                            Text('Select Category first '),
+                                        value: subCategoryValue,
+                                        items: subCategoryList
+                                            .map<DropdownMenuItem<String>>(
+                                                (value) {
+                                          return DropdownMenuItem(
+                                            child: Text(value),
+                                            value: value,
+                                          );
+                                        }).toList(),
+                                        onChanged: (String? value) {
+                                          print(value);
+                                          setState(() {
+                                            subCategoryValue = value!;
+                                          });
+                                        }),
+                                  ),
+                                )
                               ],
                             ),
                           ],
