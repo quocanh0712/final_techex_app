@@ -30,12 +30,12 @@ class SmartWatchCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children: List.generate(smartwatch.length, (index) {
+                      children: List.generate(smartwatch.length - 1, (index) {
                         return SubcategModel(
                           mainCategName: 'Smart Watch',
-                          subCategName: smartwatch[index],
+                          subCategName: smartwatch[index + 1],
                           assetName: 'images/smartwatch/image$index.jpeg',
-                          subcategLabel: smartwatch[index],
+                          subcategLabel: smartwatch[index + 1],
                         );
                       }),
                     ),

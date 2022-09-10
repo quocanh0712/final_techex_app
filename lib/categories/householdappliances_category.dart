@@ -30,14 +30,14 @@ class HouseholdAppliancesCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children:
-                          List.generate(householdappliances.length, (index) {
+                      children: List.generate(householdappliances.length - 1,
+                          (index) {
                         return SubcategModel(
                           mainCategName: 'Household Appliances',
-                          subCategName: householdappliances[index],
+                          subCategName: householdappliances[index + 1],
                           assetName:
                               'images/householdappliances/image$index.jpeg',
-                          subcategLabel: householdappliances[index],
+                          subcategLabel: householdappliances[index + 1],
                         );
                       }),
                     ),

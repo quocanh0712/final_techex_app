@@ -57,13 +57,13 @@ class PhoneCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children:
-                          List.generate(phoneandaccessories.length, (index) {
+                      children: List.generate(phoneandaccessories.length - 1,
+                          (index) {
                         return SubcategModel(
                           mainCategName: 'Phone & Accessories',
-                          subCategName: phoneandaccessories[index],
+                          subCategName: phoneandaccessories[index + 1],
                           assetName: 'images/phone/image$index.jpeg',
-                          subcategLabel: phoneandaccessories[index],
+                          subcategLabel: phoneandaccessories[index + 1],
                         );
                       }),
                     ),

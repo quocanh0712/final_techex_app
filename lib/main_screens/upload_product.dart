@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:final_techex_app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +25,10 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   late int quantity;
   late String productName;
   late String productDesc;
+  String mainCategoryValue = 'Select Category';
+  String subCategoryValue = 'SubCategory';
+
+  List<String> subCategoryList = [];
 
   final ImagePicker _picker = ImagePicker();
 
@@ -56,33 +61,63 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
             return Image.file(File(imagesFileList![index].path));
           });
     } else {
-      return Center(
+      return const Center(
         child: Text('No photos selected !'),
       );
     }
   }
 
+  void selectMainCategory(String? value) {
+    if (value == 'Select Category') {
+      subCategoryList = [];
+    } else if (value == 'Phone & Accessories') {
+      subCategoryList = phoneandaccessories;
+    } else if (value == 'Electronic device') {
+      subCategoryList = electronicdevice;
+    } else if (value == 'Computer & Laptop') {
+      subCategoryList = computerandlaptop;
+    } else if (value == 'Camera & Camcorder') {
+      subCategoryList = cameraandcamcorder;
+    } else if (value == 'Smart watch') {
+      subCategoryList = smartwatch;
+    } else if (value == 'Household appliances') {
+      subCategoryList = householdappliances;
+    }
+    print(value);
+    setState(() {
+      mainCategoryValue = value!;
+      subCategoryValue = 'SubCategory';
+    });
+  }
+
   void uploadProduct() {
-    if (_formKey.currentState!.validate()) {
-      // ignore: avoid_print
-      _formKey.currentState!.save();
-      if (imagesFileList!.isNotEmpty) {
-        print('images picked');
-        print('valid');
-        print(price);
-        print(quantity);
-        print(productName);
-        print(productDesc);
-        setState(() {
-          imagesFileList = [];
-        });
-        _formKey.currentState!.reset();
+    if (mainCategoryValue != 'Select Category' &&
+        subCategoryValue != 'SubCategory') {
+      if (_formKey.currentState!.validate()) {
+        // ignore: avoid_print
+        _formKey.currentState!.save();
+        if (imagesFileList!.isNotEmpty) {
+          print('images picked');
+          print('valid');
+          print(price);
+          print(quantity);
+          print(productName);
+          print(productDesc);
+          setState(() {
+            imagesFileList = [];
+            mainCategoryValue = 'Select Category';
+            subCategoryValue = 'SubCategory';
+          });
+          _formKey.currentState!.reset();
+        } else {
+          MyMessageHandler.showSnackBar(
+              _scaffoldKey, 'Please choose product images !');
+        }
       } else {
-        MyMessageHandler.showSnackBar(
-            _scaffoldKey, 'Please choose product images !');
+        MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields');
       }
     } else {
-      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields');
+      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please select categories');
     }
   }
 
@@ -108,13 +143,77 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           border: Border.all(),
                           color: Colors.grey,
                         ),
-                        height: MediaQuery.of(context).size.width * 0.5,
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.width * 0.45,
+                        width: MediaQuery.of(context).size.width * 0.45,
                         child: imagesFileList != null
                             ? previewsImages()
                             : const Center(
                                 child: Text('No photos selected !'),
                               ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.55,
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                const Text('Select main category',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red)),
+                                DropdownButton(
+                                    iconSize: 40,
+                                    iconEnabledColor: Colors.red,
+                                    dropdownColor: Colors.white,
+                                    value: mainCategoryValue,
+                                    items: maincategory
+                                        .map<DropdownMenuItem<String>>((value) {
+                                      return DropdownMenuItem(
+                                        child: Text(value),
+                                        value: value,
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? value) {
+                                      selectMainCategory(value);
+                                    }),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                const Text('Select  Subcategory',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red)),
+                                DropdownButton(
+                                    iconSize: 40,
+                                    iconEnabledColor: Colors.red,
+                                    dropdownColor: Colors.white,
+                                    iconDisabledColor: Colors.black,
+                                    disabledHint:
+                                        Text('Select Category first '),
+                                    value: subCategoryValue,
+                                    items: subCategoryList
+                                        .map<DropdownMenuItem<String>>((value) {
+                                      return DropdownMenuItem(
+                                        child: Text(value),
+                                        value: value,
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? value) {
+                                      print(value);
+                                      setState(() {
+                                        subCategoryValue = value!;
+                                      });
+                                    })
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -246,8 +345,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                       },
                 backgroundColor: const Color.fromARGB(255, 33, 221, 96),
                 child: imagesFileList!.isEmpty
-                    ? Icon(Icons.photo_library)
-                    : Icon(Icons.delete_outline_rounded),
+                    ? const Icon(Icons.photo_library)
+                    : const Icon(Icons.delete_outline_rounded),
               ),
             ),
             FloatingActionButton(
