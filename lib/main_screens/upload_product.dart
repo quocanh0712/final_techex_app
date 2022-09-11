@@ -4,10 +4,15 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:final_techex_app/widgets/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 class UploadProductScreen extends StatefulWidget {
   const UploadProductScreen({Key? key}) : super(key: key);
@@ -25,6 +30,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   late int quantity;
   late String productName;
   late String productDesc;
+  late String productId;
   String mainCategoryValue = 'Select Category';
   String subCategoryValue = 'SubCategory';
 
@@ -33,6 +39,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   final ImagePicker _picker = ImagePicker();
 
   List<XFile>? imagesFileList = [];
+  List<String> imagesUrlList = [];
   dynamic _pickImageError;
 
   void uploadProductImages() async {
@@ -90,13 +97,117 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
     });
   }
 
-  void uploadProduct() {
+  Future<void> uploadImages() async {
     if (mainCategoryValue != 'Select Category' &&
         subCategoryValue != 'SubCategory') {
       if (_formKey.currentState!.validate()) {
         // ignore: avoid_print
         _formKey.currentState!.save();
+
         if (imagesFileList!.isNotEmpty) {
+          try {
+            for (var image in imagesFileList!) {
+              firebase_storage.Reference ref = firebase_storage
+                  .FirebaseStorage.instance
+                  .ref('products/${path.basename(image.path)}');
+
+              await ref.putFile(File(image.path)).whenComplete(() async {
+                await ref.getDownloadURL().then((value) {
+                  imagesUrlList.add(value);
+                });
+              });
+            }
+          } catch (e) {
+            print(e);
+          }
+
+          _formKey.currentState!.reset();
+        } else {
+          MyMessageHandler.showSnackBar(
+              _scaffoldKey, 'Please choose product images !');
+        }
+      } else {
+        MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields');
+      }
+    } else {
+      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please select categories');
+    }
+  }
+
+  void uploadData() async {
+    if (imagesUrlList.isNotEmpty) {
+      CollectionReference productRef =
+          FirebaseFirestore.instance.collection('products');
+
+      productId = const Uuid().v4();
+
+      await productRef.doc(productId).set({
+        'productId': productId,
+        'maincategory': mainCategoryValue,
+        'subcategory': subCategoryValue,
+        'price': price,
+        'instock': quantity,
+        'productname': productName,
+        'productdesc': productDesc,
+        'sid': FirebaseAuth.instance.currentUser!.uid,
+        'productimages': imagesUrlList,
+        'discount': 0, // add discount later
+      }).whenComplete(() {
+        setState(() {
+          imagesFileList = [];
+          mainCategoryValue = 'Select Category';
+          imagesUrlList = [];
+          subCategoryList = [];
+        });
+      });
+    } else {
+      print('no images');
+    }
+  }
+
+  void uploadProduct() async {
+    await uploadImages().whenComplete(() => uploadData());
+  }
+/*
+  void uploadProduct() async {
+    if (mainCategoryValue != 'Select Category' &&
+        subCategoryValue != 'SubCategory') {
+      if (_formKey.currentState!.validate()) {
+        // ignore: avoid_print
+        _formKey.currentState!.save();
+
+        if (imagesFileList!.isNotEmpty) {
+          try {
+            for (var image in imagesFileList!) {
+              firebase_storage.Reference ref = firebase_storage
+                  .FirebaseStorage.instance
+                  .ref('products/${path.basename(image.path)}');
+
+              await ref.putFile(File(image.path)).whenComplete(() async {
+                await ref.getDownloadURL().then((value) {
+                  imagesUrlList.add(value);
+                }).whenComplete(() async {
+                  CollectionReference productRef =
+                      FirebaseFirestore.instance.collection('products');
+
+                  await productRef.doc().set({
+                    'maincategory': mainCategoryValue,
+                    'subcategory': subCategoryValue,
+                    'price': price,
+                    'instock': quantity,
+                    'productname': productName,
+                    'productdesc': productDesc,
+                    'sid': FirebaseAuth.instance.currentUser!.uid,
+                    'productimages': imagesUrlList,
+                    'discount': 0, // add discount later
+                  });
+                });
+              });
+            }
+          } catch (e) {
+            print(e);
+          }
+
           print('images picked');
           print('valid');
           print(price);
@@ -106,7 +217,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
           setState(() {
             imagesFileList = [];
             mainCategoryValue = 'Select Category';
-            subCategoryValue = 'SubCategory';
+            //subCategoryValue = 'SubCategory';
+            subCategoryList = [];
           });
           _formKey.currentState!.reset();
         } else {
@@ -120,6 +232,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
       MyMessageHandler.showSnackBar(_scaffoldKey, 'Please select categories');
     }
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +254,27 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: const Offset(
+                                1.0,
+                                1.0,
+                              ),
+                              blurRadius: 5.0,
+                              spreadRadius: 1.0,
+                            ), //BoxShadow
+                            BoxShadow(
+                              color: Colors.white,
+                              offset: const Offset(0.0, 0.0),
+                              blurRadius: 0.0,
+                              spreadRadius: 0.0,
+                            ),
+                          ],
                           color: Colors.grey,
                         ),
-                        height: MediaQuery.of(context).size.width * 0.45,
-                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: imagesFileList != null
                             ? previewsImages()
                             : const Center(
@@ -152,8 +282,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                               ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.55,
-                        width: MediaQuery.of(context).size.width * 0.55,
+                        height: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,6 +296,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
                                 Container(
+                                  height: 30,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.52,
                                   decoration: ShapeDecoration(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
@@ -178,7 +311,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                     child: DropdownButton(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        iconSize: 40,
+                                        iconSize: 30,
                                         iconEnabledColor: Colors.red,
                                         dropdownColor: Colors.white,
                                         value: mainCategoryValue,
@@ -205,6 +338,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red)),
                                 Container(
+                                  height: 30,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.52,
                                   decoration: ShapeDecoration(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
@@ -218,7 +354,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         alignment: Alignment.center,
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        iconSize: 40,
+                                        iconSize: 30,
                                         iconEnabledColor: Colors.red,
                                         dropdownColor: Colors.white,
                                         iconDisabledColor: Colors.black,
