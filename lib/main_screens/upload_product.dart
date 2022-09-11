@@ -33,6 +33,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   late String productId;
   String mainCategoryValue = 'Select Category';
   String subCategoryValue = 'SubCategory';
+  bool processing = false;
 
   List<String> subCategoryList = [];
 
@@ -105,6 +106,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         _formKey.currentState!.save();
 
         if (imagesFileList!.isNotEmpty) {
+          setState(() {
+            processing = true;
+          });
           try {
             for (var image in imagesFileList!) {
               firebase_storage.Reference ref = firebase_storage
@@ -153,6 +157,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         'productimages': imagesUrlList,
         'discount': 0, // add discount later
       }).whenComplete(() {
+        processing = false;
         setState(() {
           imagesFileList = [];
           mainCategoryValue = 'Select Category';
@@ -521,7 +526,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                 uploadProduct();
               },
               backgroundColor: const Color.fromARGB(255, 33, 221, 96),
-              child: const Icon(Icons.upload),
+              child: processing == true
+                  ? const CircularProgressIndicator(color: Colors.blue)
+                  : const Icon(Icons.upload),
             )
           ],
         ),
