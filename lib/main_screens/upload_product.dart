@@ -522,9 +522,11 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
               ),
             ),
             FloatingActionButton(
-              onPressed: () {
-                uploadProduct();
-              },
+              onPressed: processing == true
+                  ? null
+                  : () {
+                      uploadProduct();
+                    },
               backgroundColor: const Color.fromARGB(255, 33, 221, 96),
               child: processing == true
                   ? const CircularProgressIndicator(color: Colors.blue)
