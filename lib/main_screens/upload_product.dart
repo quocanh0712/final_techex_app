@@ -259,10 +259,10 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.grey,
-                              offset: const Offset(
+                              offset: Offset(
                                 1.0,
                                 1.0,
                               ),
@@ -271,7 +271,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             ), //BoxShadow
                             BoxShadow(
                               color: Colors.white,
-                              offset: const Offset(0.0, 0.0),
+                              offset: Offset(0.0, 0.0),
                               blurRadius: 0.0,
                               spreadRadius: 0.0,
                             ),
@@ -304,7 +304,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                   height: 30,
                                   width:
                                       MediaQuery.of(context).size.width * 0.52,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                           width: 1.0, style: BorderStyle.solid),
@@ -346,7 +346,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                   height: 30,
                                   width:
                                       MediaQuery.of(context).size.width * 0.52,
-                                  decoration: ShapeDecoration(
+                                  decoration: const ShapeDecoration(
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                           width: 1.0, style: BorderStyle.solid),
@@ -363,8 +363,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                         iconEnabledColor: Colors.red,
                                         dropdownColor: Colors.white,
                                         iconDisabledColor: Colors.black,
-                                        disabledHint:
-                                            Text('Select Category first '),
+                                        disabledHint: const Text(
+                                            'Select Category first '),
                                         value: subCategoryValue,
                                         items: subCategoryList
                                             .map<DropdownMenuItem<String>>(
