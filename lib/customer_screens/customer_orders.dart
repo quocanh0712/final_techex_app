@@ -9,7 +9,7 @@ class CustomerOrders extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 31, 129, 117),
+        backgroundColor: const Color.fromARGB(255, 31, 129, 117),
         title: const AppBarTitle(title: 'Customer Orders'),
         leading: const AppBarBackButton(),
       ),

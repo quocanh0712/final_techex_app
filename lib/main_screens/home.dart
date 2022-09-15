@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../minor_screen/search.dart';
 import '../widgets/fake_search.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Color.fromARGB(255, 31, 129, 117),
+            backgroundColor: const Color.fromARGB(255, 31, 129, 117),
             title:
                 const FakeSearch(), // Extract from inkwell to fakesearch widgets
             bottom: const TabBar(
@@ -59,7 +57,7 @@ class RepeatedTab extends StatelessWidget {
     return Tab(
       child: Text(
         lable,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

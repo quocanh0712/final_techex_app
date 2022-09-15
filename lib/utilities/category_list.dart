@@ -1,13 +1,15 @@
 List<String> maincategory = [
-  'phone & accessories',
-  'electronic device',
-  'computer & laptop',
-  'camera & camcorder',
-  'smart watch',
-  'household appliances',
+  'Select Category',
+  'Phone & Accessories',
+  'Electronic device',
+  'Computer & Laptop',
+  'Camera & Camcorder',
+  'Smart watch',
+  'Household appliances',
 ];
 
 List<String> phoneandaccessories = [
+  'SubCategory',
   'Phone',
   'Tablet',
   'Phone Case , Sticker',
@@ -21,6 +23,7 @@ List<String> phoneandaccessories = [
 ];
 
 List<String> electronicdevice = [
+  'SubCategory',
   'Game Console',
   'Console Accessories',
   'Loudspeaker',
@@ -32,6 +35,7 @@ List<String> electronicdevice = [
 ];
 
 List<String> computerandlaptop = [
+  'SubCategory',
   'Computer',
   'Laptop',
   'Screen',
@@ -44,6 +48,7 @@ List<String> computerandlaptop = [
 ];
 
 List<String> cameraandcamcorder = [
+  'SubCategory',
   'Camera',
   'Camcorder',
   'Surveillance Camera ',
@@ -54,12 +59,14 @@ List<String> cameraandcamcorder = [
 ];
 
 List<String> smartwatch = [
+  'SubCategory',
   'Smart Watch',
   'Smart Watch Accessories',
   'Screen Protector'
 ];
 
 List<String> householdappliances = [
+  'SubCategory',
   'Kitchen Utensils',
   'Vacuum Cleaners ',
   'Fan and Air conditioner',

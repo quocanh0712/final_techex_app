@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "767560299090",
+    "project_id": "techex-store",
+    "storage_bucket": "techex-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767560299090:android:762efca85fb1c3b6b9a58b",
+        "android_client_info": {
+          "package_name": "com.example.final_techex_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767560299090-8pit9c1vsb53hhhcqacfh7ibqet5194k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.final_techex_app",
+            "certificate_hash": "e874561d9d7ec2a0fb3d892fa88a5e1254347ff4"
+          }
+        },
+        {
+          "client_id": "767560299090-8o80kgbu8sfc5q6upv4226ao9m5u7a7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_O_z4ATYBR3JYZ6pmvi2KUJTD4AdbJSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767560299090-8o80kgbu8sfc5q6upv4226ao9m5u7a7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

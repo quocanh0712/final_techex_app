@@ -30,12 +30,13 @@ class ElectronicDeviceCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children: List.generate(electronicdevice.length, (index) {
+                      children:
+                          List.generate(electronicdevice.length - 1, (index) {
                         return SubcategModel(
                           mainCategName: 'Electronic Device',
-                          subCategName: electronicdevice[index],
+                          subCategName: electronicdevice[index + 1],
                           assetName: 'images/electronicdevice/image$index.jpeg',
-                          subcategLabel: electronicdevice[index],
+                          subcategLabel: electronicdevice[index + 1],
                         );
                       }),
                     ),

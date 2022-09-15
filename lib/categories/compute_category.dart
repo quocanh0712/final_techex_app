@@ -31,13 +31,13 @@ class ComputerAndLaptopCategory extends StatelessWidget {
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
                       children:
-                          List.generate(computerandlaptop.length, (index) {
+                          List.generate(computerandlaptop.length - 1, (index) {
                         return SubcategModel(
                           mainCategName: 'Computer & Laptop',
-                          subCategName: computerandlaptop[index],
+                          subCategName: computerandlaptop[index + 1],
                           assetName:
                               'images/computerandlaptop/image$index.jpeg',
-                          subcategLabel: computerandlaptop[index],
+                          subcategLabel: computerandlaptop[index + 1],
                         );
                       }),
                     ),
