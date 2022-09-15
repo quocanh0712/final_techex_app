@@ -1,7 +1,6 @@
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:flutter/material.dart';
 
-import '../minor_screen/subcateg_products.dart';
 import '../widgets/categ_widgets.dart';
 
 class HouseholdAppliancesCategory extends StatelessWidget {
@@ -31,14 +30,14 @@ class HouseholdAppliancesCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children:
-                          List.generate(householdappliances.length, (index) {
+                      children: List.generate(householdappliances.length - 1,
+                          (index) {
                         return SubcategModel(
                           mainCategName: 'Household Appliances',
-                          subCategName: householdappliances[index],
+                          subCategName: householdappliances[index + 1],
                           assetName:
                               'images/householdappliances/image$index.jpeg',
-                          subcategLabel: householdappliances[index],
+                          subcategLabel: householdappliances[index + 1],
                         );
                       }),
                     ),
@@ -47,7 +46,7 @@ class HouseholdAppliancesCategory extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 0,
             right: 0,
             child: SliderBar(),

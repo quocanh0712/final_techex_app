@@ -1,7 +1,6 @@
 import 'package:final_techex_app/utilities/category_list.dart';
 import 'package:flutter/material.dart';
 
-import '../minor_screen/subcateg_products.dart';
 import '../widgets/categ_widgets.dart';
 
 /*List<String> imagePhone = [
@@ -58,13 +57,13 @@ class PhoneCategory extends StatelessWidget {
                       mainAxisSpacing: 70,
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
-                      children:
-                          List.generate(phoneandaccessories.length, (index) {
+                      children: List.generate(phoneandaccessories.length - 1,
+                          (index) {
                         return SubcategModel(
                           mainCategName: 'Phone & Accessories',
-                          subCategName: phoneandaccessories[index],
+                          subCategName: phoneandaccessories[index + 1],
                           assetName: 'images/phone/image$index.jpeg',
-                          subcategLabel: phoneandaccessories[index],
+                          subcategLabel: phoneandaccessories[index + 1],
                         );
                       }),
                     ),
@@ -73,7 +72,7 @@ class PhoneCategory extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 0,
             right: 0,
             child: SliderBar(),

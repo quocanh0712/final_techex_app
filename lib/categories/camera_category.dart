@@ -31,12 +31,12 @@ class CameraAndCamcorderCategory extends StatelessWidget {
                       crossAxisSpacing: 15,
                       crossAxisCount: 3,
                       children:
-                          List.generate(cameraandcamcorder.length, (index) {
+                          List.generate(cameraandcamcorder.length - 1, (index) {
                         return SubcategModel(
                           mainCategName: 'Camera & Camcorder',
-                          subCategName: cameraandcamcorder[index],
+                          subCategName: cameraandcamcorder[index + 1],
                           assetName: 'images/camera&camcorder/image$index.jpeg',
-                          subcategLabel: cameraandcamcorder[index],
+                          subcategLabel: cameraandcamcorder[index + 1],
                         );
                       }),
                     ),

@@ -1,6 +1,7 @@
 import 'package:final_techex_app/main_screens/category.dart';
 import 'package:final_techex_app/main_screens/dashboard.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
+import 'package:final_techex_app/main_screens/upload_product.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -19,9 +20,7 @@ class _SupplierHomeScreenState extends State<SupplierHomeScreen> {
     CategoryScreen(),
     StoresScreen(),
     DashboardScreen(),
-    Center(
-      child: Text('Upload'),
-    ),
+    UploadProductScreen(),
   ];
   @override
   Widget build(BuildContext context) {
