@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       padding: const EdgeInsets.only(left: 25),
                                       child: Text(
                                           data['name'] == ''
-                                              ? 'guest'
+                                              ? 'guest'.toUpperCase()
                                               : data['name'].toUpperCase(),
                                           style: const TextStyle(
                                               fontSize: 24,
