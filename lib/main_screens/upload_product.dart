@@ -164,6 +164,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
           imagesUrlList = [];
           subCategoryList = [];
         });
+        _formKey.currentState!.reset();
       });
     } else {
       print('no images');
@@ -562,7 +563,8 @@ extension QuantityValidator on String {
 
 extension PriceValidator on String {
   bool isValidPrice() {
-    return RegExp(r'^((([1-9][0-9]*[\.]*)||([0][\.]*))([0-9]{1,2}))$')
+    return RegExp(
+            r'^((([1-9][0-9]*[\.]*)||([0][\.]*))([0-9]{1,2}))$') //fix it later
         .hasMatch(this);
   }
 }
