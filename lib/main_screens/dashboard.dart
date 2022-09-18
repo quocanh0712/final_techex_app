@@ -1,9 +1,10 @@
 import 'package:final_techex_app/dashboard_components/edit_profile.dart';
 import 'package:final_techex_app/dashboard_components/manage_products.dart';
-import 'package:final_techex_app/dashboard_components/my_store.dart';
+
 import 'package:final_techex_app/dashboard_components/supplier_balance.dart';
 import 'package:final_techex_app/dashboard_components/supplier_orders.dart';
 import 'package:final_techex_app/dashboard_components/supplier_statics.dart';
+import 'package:final_techex_app/main_screens/store_detail.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ List<IconData> icons = [
 ];
 
 List<Widget> pages = [
-  const MyStore(),
+  StoreDetail(supplierId: FirebaseAuth.instance.currentUser!.uid),
   const SupplierOrders(),
   const EditBusiness(),
   const ManageProducts(),

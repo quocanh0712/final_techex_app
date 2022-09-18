@@ -1,4 +1,5 @@
 import 'package:final_techex_app/minor_screen/product_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProductModel extends StatelessWidget {
@@ -12,7 +13,9 @@ class ProductModel extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>  ProductDetailsScreen(productList: products,)));
+                builder: (context) => ProductDetailsScreen(
+                      productList: products,
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -58,12 +61,20 @@ class ProductModel extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.red,
-                            )),
+                        products['sid'] ==
+                                FirebaseAuth.instance.currentUser!.uid
+                            ? IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.red,
+                                ))
+                            : IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.favorite_border_outlined,
+                                  color: Colors.red,
+                                )),
                       ],
                     ),
                   ],

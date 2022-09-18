@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_techex_app/main_screens/store_detail.dart';
 import 'package:final_techex_app/minor_screen/full_screen_view.dart';
 import 'package:final_techex_app/models/product_model.dart';
 import 'package:final_techex_app/widgets/button.dart';
@@ -39,7 +40,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FullScreenView(imagesList: imagesList,)));
+                            builder: (context) => FullScreenView(
+                                  imagesList: imagesList,
+                                )));
                   },
                   child: Stack(
                     children: [
@@ -66,7 +69,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.arrow_back_ios,
                                   color: Colors.white,
                                 )),
@@ -78,7 +81,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             backgroundColor: Colors.black,
                             child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.share,
                                   color: Colors.white,
                                 )),
@@ -91,7 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     Text(
                       widget.productList['productname'],
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.w600),
@@ -101,17 +104,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       children: [
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               'USD',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               widget.productList['price'].toStringAsFixed(2),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.green,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600),
@@ -130,7 +133,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Text(
                         (widget.productList['instock'].toString()) +
                             (' products available in stock'),
-                        style: TextStyle(fontSize: 16, color: Colors.blueGrey)),
+                        style: const TextStyle(
+                            fontSize: 16, color: Colors.blueGrey)),
                   ],
                 ),
                 const ProductDetailsHeader(
@@ -206,7 +210,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               child: Row(
                 children: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.shop_2)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StoreDetail(
+                                    supplierId: widget.productList['sid'])));
+                      },
+                      icon: const Icon(Icons.shop_2)),
                   const SizedBox(
                     width: 20,
                   ),

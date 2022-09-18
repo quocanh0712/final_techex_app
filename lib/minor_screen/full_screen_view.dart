@@ -18,8 +18,8 @@ class _FullScreenViewState extends State<FullScreenView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 31, 129, 117),
-        leading: AppBarBackButton(),
+        backgroundColor: const Color.fromARGB(255, 31, 129, 117),
+        leading: const AppBarBackButton(),
       ),
       body: SafeArea(
         child: Column(
@@ -32,7 +32,7 @@ class _FullScreenViewState extends State<FullScreenView> {
                   ('${index + 1}') +
                       ('/') +
                       (widget.imagesList.length.toString()),
-                  style: TextStyle(fontSize: 24, letterSpacing: 8),
+                  style: const TextStyle(fontSize: 24, letterSpacing: 8),
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class _FullScreenViewState extends State<FullScreenView> {
               _controller.jumpToPage(index);
             },
             child: Container(
-                margin: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
                 width: 120,
                 decoration: BoxDecoration(
                     border: Border.all(width: 4, color: Colors.red),
