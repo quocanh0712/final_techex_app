@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_techex_app/models/product_model.dart';
-import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -96,7 +95,7 @@ class _StoreDetailState extends State<StoreDetail> {
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
-                                  children: [
+                                  children: const [
                                     Text('Edit'),
                                     Icon(
                                       Icons.edit,
@@ -178,8 +177,8 @@ class _StoreDetailState extends State<StoreDetail> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              backgroundColor: Color.fromARGB(255, 72, 221, 77),
-              child: Icon(
+              backgroundColor: const Color.fromARGB(255, 72, 221, 77),
+              child: const Icon(
                 FontAwesomeIcons.whatsapp,
                 color: Colors.white,
                 size: 50,
