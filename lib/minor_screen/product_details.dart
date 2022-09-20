@@ -257,8 +257,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         onPressed: () {
                           context.read<Cart>().getItems.firstWhereOrNull(
                                       // ignore: avoid_types_as_parameter_names
-                                      (Product) =>
-                                          Product.documentId ==
+                                      (product) =>
+                                          product.documentId ==
                                           widget.productList['productId']) !=
                                   null
                               ? MyMessageHandler.showSnackBar(

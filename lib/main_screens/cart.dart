@@ -140,6 +140,7 @@ class CartItems extends StatelessWidget {
         return ListView.builder(
             itemCount: cart.count,
             itemBuilder: (context, index) {
+              final product = cart.getItems[index];
               return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Card(
@@ -149,7 +150,7 @@ class CartItems extends StatelessWidget {
                       SizedBox(
                         height: 100,
                         width: 120,
-                        child: Image.network(cart.getItems[index].imagesUrl[0]),
+                        child: Image.network(product.imagesUrl[0]),
                       ),
                       Flexible(
                         child: Padding(
@@ -158,7 +159,7 @@ class CartItems extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                cart.getItems[index].name,
+                                product.name,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -171,7 +172,7 @@ class CartItems extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    cart.getItems[index].price
+                                    product.price
                                         .toStringAsFixed(2),
                                     style: const TextStyle(
                                         fontSize: 16,
@@ -185,11 +186,11 @@ class CartItems extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(25)),
                                     child: Row(children: [
-                                      cart.getItems[index].quantity == 1
+                                      product.quantity == 1
                                           ? IconButton(
                                               onPressed: () {
                                                 cart.removeProduct(
-                                                    cart.getItems[index]);
+                                                    product);
                                               },
                                               icon: const Icon(
                                                 Icons.delete_rounded,
@@ -198,17 +199,17 @@ class CartItems extends StatelessWidget {
                                           : IconButton(
                                               onPressed: () {
                                                 cart.reduceByOne(
-                                                    cart.getItems[index]);
+                                                    product);
                                               },
                                               icon: const Icon(
                                                 FontAwesomeIcons.minus,
                                                 size: 18,
                                               )),
                                       Text(
-                                        cart.getItems[index].quantity
+                                        product.quantity
                                             .toString(),
-                                        style: cart.getItems[index].quantity ==
-                                                cart.getItems[index].inStock
+                                        style: product.quantity ==
+                                                product.inStock
                                             ? const TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
@@ -218,13 +219,13 @@ class CartItems extends StatelessWidget {
                                                 fontWeight: FontWeight.bold),
                                       ),
                                       IconButton(
-                                          onPressed: cart.getItems[index]
+                                          onPressed: product
                                                       .quantity ==
-                                                  cart.getItems[index].inStock
+                                                 product.inStock
                                               ? null
                                               : () {
                                                   cart.increment(
-                                                      cart.getItems[index]);
+                                                      product);
                                                 },
                                           icon: const Icon(
                                             FontAwesomeIcons.plus,
