@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:collection/collection.dart';
+import 'package:badges/badges.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final dynamic productList;
@@ -27,16 +28,20 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  late final Stream<QuerySnapshot> _productStream = FirebaseFirestore.instance
+      .collection('products')
+      .where('maincategory', isEqualTo: widget.productList['maincategory'])
+      .where('subcategory', isEqualTo: widget.productList['subcategory'])
+      .snapshots();
+
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
   late List<dynamic> imagesList = widget.productList['productimages'];
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _productStream = FirebaseFirestore.instance
-        .collection('products')
-        .where('maincategory', isEqualTo: widget.productList['maincategory'])
-        .where('subcategory', isEqualTo: widget.productList['subcategory'])
-        .snapshots();
+    var existingItemCart = context.read<Cart>().getItems.firstWhereOrNull(
+        // ignore: avoid_types_as_parameter_names
+        (product) => product.documentId == widget.productList['productId']);
     return Material(
       child: SafeArea(
         top: false,
@@ -136,14 +141,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           IconButton(
                               onPressed: () {
-                                context
-                                            .read<Wish>()
-                                            .getWishItems
-                                            .firstWhereOrNull((product) =>
-                                                product.documentId ==
-                                                widget.productList[
-                                                    'productId']) !=
-                                        null
+                                var existingItemWishlist = context
+                                    .read<Wish>()
+                                    .getWishItems
+                                    .firstWhereOrNull((product) =>
+                                        product.documentId ==
+                                        widget.productList['productId']);
+                                existingItemWishlist != null
                                     ? context.read<Wish>().removeItem(
                                         widget.productList['productId'])
                                     : context.read<Wish>().addWishItem(
@@ -280,21 +284,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ),
                                   ));
                             },
-                            icon: const Icon(Icons.shopping_cart)),
+                            icon: Badge(
+                                showBadge: context.read<Cart>().getItems.isEmpty
+                                    ? false
+                                    : true,
+                                padding: const EdgeInsets.all(2),
+                                badgeColor: const Color.fromARGB(255, 77, 230, 82),
+                                badgeContent: Text(
+                                  context
+                                      .watch<Cart>()
+                                      .getItems
+                                      .length
+                                      .toString(),
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.black),
+                                ),
+                                child: const Icon(Icons.shopping_cart))),
                       ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Button(
-                        label: 'ADD TO CART ',
+                        label: existingItemCart != null
+                            ? 'ADDED TO CART'
+                            : 'ADD TO CART ',
                         onPressed: () {
-                          context.read<Cart>().getItems.firstWhereOrNull(
-                                      // ignore: avoid_types_as_parameter_names
-                                      (product) =>
-                                          product.documentId ==
-                                          widget.productList['productId']) !=
-                                  null
+                          existingItemCart != null
                               ? MyMessageHandler.showSnackBar(
                                   _scaffoldKey, 'This item is already in cart')
                               : context.read<Cart>().addItem(

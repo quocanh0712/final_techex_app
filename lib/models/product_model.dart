@@ -79,14 +79,13 @@ class _ProductModelState extends State<ProductModel> {
                                 ))
                             : IconButton(
                                 onPressed: () {
-                                  context
-                                              .read<Wish>()
-                                              .getWishItems
-                                              .firstWhereOrNull((product) =>
-                                                  product.documentId ==
-                                                  widget
-                                                      .products['productId']) !=
-                                          null
+                                  var existingItemWishlist = context
+                                      .read<Wish>()
+                                      .getWishItems
+                                      .firstWhereOrNull((product) =>
+                                          product.documentId ==
+                                          widget.products['productId']);
+                                  existingItemWishlist != null
                                       ? context.read<Wish>().removeItem(
                                           widget.products['productId'])
                                       : context.read<Wish>().addWishItem(
