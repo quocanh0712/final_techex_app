@@ -1,6 +1,7 @@
+import 'package:final_techex_app/providers/cart_provider.dart';
 import 'package:final_techex_app/providers/wish_provider.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -138,13 +139,48 @@ class WishItems extends StatelessWidget {
                                                 .read<Wish>()
                                                 .removeProduct(product);
                                           },
-                                          icon: const Icon(Icons.delete_rounded)),
+                                          icon:
+                                              const Icon(Icons.delete_rounded)),
                                       const SizedBox(
                                         width: 10,
                                       ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.shopping_cart)),
+                                      context
+                                                  .watch<Cart>()
+                                                  .getItems
+                                                  .firstWhereOrNull(
+                                                      // ignore: avoid_types_as_parameter_names
+                                                      (element) =>
+                                                          element.documentId ==
+                                                          product.documentId) !=
+                                              null
+                                          ? const SizedBox()
+                                          : IconButton(
+                                              onPressed: () {
+                                                /* context
+                                                        .read<Cart>()
+                                                        .getItems
+                                                        .firstWhereOrNull(
+                                                            // ignore: avoid_types_as_parameter_names
+                                                            (element) =>
+                                                                element
+                                                                    .documentId ==
+                                                                product
+                                                                    .documentId) !=
+                                                    null
+                                                ? print('incart')
+                                                : */
+                                                context.read<Cart>().addItem(
+                                                      product.name,
+                                                      product.price,
+                                                      1,
+                                                      product.inStock,
+                                                      product.imagesUrl,
+                                                      product.documentId,
+                                                      product.suppId,
+                                                    );
+                                              },
+                                              icon: const Icon(
+                                                  Icons.shopping_cart)),
                                     ],
                                   ),
                                 ],

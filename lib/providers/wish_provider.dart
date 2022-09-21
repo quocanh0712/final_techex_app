@@ -1,9 +1,6 @@
 import 'package:final_techex_app/providers/product_class.dart';
 import 'package:flutter/foundation.dart';
 
-
-
-
 class Wish extends ChangeNotifier {
   final List<Product> _list = [];
   List<Product> get getWishItems {
@@ -35,7 +32,6 @@ class Wish extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void removeProduct(Product product) {
     _list.remove(product);
     notifyListeners();
@@ -43,6 +39,11 @@ class Wish extends ChangeNotifier {
 
   void clearWishlist() {
     _list.clear();
+    notifyListeners();
+  }
+
+  void removeItem(String id) {
+    _list.removeWhere((element) => element.documentId == id);
     notifyListeners();
   }
 }

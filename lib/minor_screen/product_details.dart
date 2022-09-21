@@ -144,9 +144,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 widget.productList[
                                                     'productId']) !=
                                         null
-                                    ? MyMessageHandler.showSnackBar(
-                                        _scaffoldKey,
-                                        'This item is already in wishlist')
+                                    ? context.read<Wish>().removeItem(
+                                        widget.productList['productId'])
                                     : context.read<Wish>().addWishItem(
                                           widget.productList['productname'],
                                           widget.productList['price'],
@@ -157,11 +156,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           widget.productList['sid'],
                                         );
                               },
-                              icon: const Icon(
-                                Icons.favorite_border_outlined,
-                                color: Colors.red,
-                                size: 30,
-                              )),
+                              icon: context
+                                          .watch<Wish>()
+                                          .getWishItems
+                                          .firstWhereOrNull((product) =>
+                                              product.documentId ==
+                                              widget
+                                                  .productList['productId']) !=
+                                      null
+                                  ? const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      size: 30,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_outline,
+                                      color: Colors.red,
+                                      size: 30,
+                                    )),
                         ],
                       ),
                       Text(
