@@ -1,5 +1,6 @@
 import 'package:final_techex_app/providers/cart_provider.dart';
 import 'package:final_techex_app/providers/wish_provider.dart';
+import 'package:final_techex_app/widgets/alert_dialog.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -28,28 +29,28 @@ class _WishlistScreenState extends State<WishlistScreen> {
             backgroundColor: const Color.fromARGB(255, 31, 129, 117),
             leading: const AppBarBackButton(),
             title: const AppBarTitle(title: 'Wishlist'),
-            /*  actions: [
-              context.watch<Cart>().getItems.isEmpty
+            actions: [
+              context.watch<Wish>().getWishItems.isEmpty
                   ? const SizedBox()
                   : IconButton(
                       onPressed: () {
                         MyAlertDialog.showDialog(
                             context: context,
-                            title: 'Clear Cart',
-                            content: 'Are you sure to clear cart ?',
+                            title: 'Clear Wishlist',
+                            content: 'Are you sure to clear wishlist ?',
                             tabNo: () {
                               Navigator.pop(context);
                             },
                             tabYes: () {
-                              context.read<Cart>().clearCart();
+                              context.read<Wish>().clearWishlist();
                               Navigator.pop(
                                 context,
                               );
                             });
                       },
                       icon:
-                          const Icon(Icons.delete_forever, color: Colors.white)) 
-            ], */
+                          const Icon(Icons.delete_forever, color: Colors.white))
+            ],
           ),
           body: context.watch<Wish>().getWishItems.isNotEmpty
               ? const WishItems()
