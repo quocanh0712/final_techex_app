@@ -6,6 +6,7 @@ import 'package:final_techex_app/main_screens/store_detail.dart';
 import 'package:final_techex_app/minor_screen/full_screen_view.dart';
 import 'package:final_techex_app/models/product_model.dart';
 import 'package:final_techex_app/providers/cart_provider.dart';
+import 'package:final_techex_app/providers/wish_provider.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:final_techex_app/widgets/button.dart';
 import 'package:final_techex_app/widgets/snackbar.dart';
@@ -134,7 +135,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ],
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context
+                                            .read<Wish>()
+                                            .getWishItems
+                                            .firstWhereOrNull((product) =>
+                                                product.documentId ==
+                                                widget.productList[
+                                                    'productId']) !=
+                                        null
+                                    ? MyMessageHandler.showSnackBar(
+                                        _scaffoldKey,
+                                        'This item is already in wishlist')
+                                    : context.read<Wish>().addWishItem(
+                                          widget.productList['productname'],
+                                          widget.productList['price'],
+                                          1,
+                                          widget.productList['instock'],
+                                          widget.productList['productimages'],
+                                          widget.productList['productId'],
+                                          widget.productList['sid'],
+                                        );
+                              },
                               icon: const Icon(
                                 Icons.favorite_border_outlined,
                                 color: Colors.red,

@@ -4,26 +4,17 @@ import 'package:flutter/foundation.dart';
 
 
 
-class Cart extends ChangeNotifier {
+class Wish extends ChangeNotifier {
   final List<Product> _list = [];
-  List<Product> get getItems {
+  List<Product> get getWishItems {
     return _list;
-  }
-
-  double get totalPrice {
-    var total = 0.0;
-
-    for (var item in _list) {
-      total += item.price * item.quantity;
-    }
-    return total;
   }
 
   int? get count {
     return _list.length;
   }
 
-  void addItem(
+  void addWishItem(
     String name,
     double price,
     int quantity,
@@ -44,22 +35,13 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increment(Product product) {
-    product.increaseQuantity();
-    notifyListeners();
-  }
-
-  void reduceByOne(Product product) {
-    product.decreaseQuantity();
-    notifyListeners();
-  }
 
   void removeProduct(Product product) {
     _list.remove(product);
     notifyListeners();
   }
 
-  void clearCart() {
+  void clearWishlist() {
     _list.clear();
     notifyListeners();
   }
