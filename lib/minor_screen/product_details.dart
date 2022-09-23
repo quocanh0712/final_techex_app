@@ -275,31 +275,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           width: 20,
                         ),
                         IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const CartScreen(
-                                      back: AppBarBackButton(),
-                                    ),
-                                  ));
-                            },
-                            icon: Badge(
-                                showBadge: context.read<Cart>().getItems.isEmpty
-                                    ? false
-                                    : true,
-                                padding: const EdgeInsets.all(2),
-                                badgeColor: const Color.fromARGB(255, 77, 230, 82),
-                                badgeContent: Text(
-                                  context
-                                      .watch<Cart>()
-                                      .getItems
-                                      .length
-                                      .toString(),
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                ),
-                                child: const Icon(Icons.shopping_cart))),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CartScreen(
+                                    back: AppBarBackButton(),
+                                  ),
+                                ));
+                          },
+                          icon: Badge(
+                            showBadge: context.read<Cart>().getItems.isEmpty
+                                ? false
+                                : true,
+                            padding: const EdgeInsets.all(2),
+                            badgeColor: const Color.fromARGB(255, 77, 230, 82),
+                            badgeContent: Text(
+                              context.watch<Cart>().getItems.length.toString(),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.black),
+                            ),
+                            child: const Icon(Icons.shopping_cart),
+                          ),
+                        ),
                       ],
                     ),
                   ),

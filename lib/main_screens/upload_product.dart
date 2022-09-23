@@ -292,7 +292,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
                               children: [
@@ -317,7 +317,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                     child: DropdownButton(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        iconSize: 30,
+                                        iconSize: 20,
                                         iconEnabledColor: Colors.red,
                                         dropdownColor: Colors.white,
                                         value: mainCategoryValue,
@@ -325,7 +325,10 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                             .map<DropdownMenuItem<String>>(
                                                 (value) {
                                           return DropdownMenuItem(
-                                            child: Text(value),
+                                            child: Text(
+                                              value,
+                                              style: const TextStyle(fontSize: 15),
+                                            ),
                                             value: value,
                                           );
                                         }).toList(),
@@ -357,21 +360,25 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                   ),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
-                                        alignment: Alignment.center,
+                                        isExpanded: true,
                                         borderRadius:
                                             BorderRadius.circular(12.0),
-                                        iconSize: 30,
+                                        iconSize: 20,
                                         iconEnabledColor: Colors.red,
                                         dropdownColor: Colors.white,
                                         iconDisabledColor: Colors.black,
                                         disabledHint: const Text(
-                                            'Select Category first '),
+                                          'Select Category first ',
+                                        ),
                                         value: subCategoryValue,
                                         items: subCategoryList
                                             .map<DropdownMenuItem<String>>(
                                                 (value) {
                                           return DropdownMenuItem(
-                                            child: Text(value),
+                                            child: Text(
+                                              value,
+                                              style: const TextStyle(fontSize: 15),
+                                            ),
                                             value: value,
                                           );
                                         }).toList(),

@@ -1,3 +1,4 @@
+import 'package:final_techex_app/minor_screen/place_order.dart';
 import 'package:final_techex_app/models/cart_model.dart';
 import 'package:final_techex_app/providers/cart_provider.dart';
 import 'package:final_techex_app/widgets/alert_dialog.dart';
@@ -5,7 +6,6 @@ import 'package:final_techex_app/widgets/appbar_widgets.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/button.dart';
 
 class CartScreen extends StatefulWidget {
   final Widget? back;
@@ -18,6 +18,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    double total = context.watch<Cart>().totalPrice;
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -68,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      context.watch<Cart>().totalPrice.toStringAsFixed(2),
+                      total.toStringAsFixed(2),
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -76,11 +77,24 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ],
                 ),
-                Button(
-                  width: 0.30,
-                  label: 'CHECK OUT',
-                  onPressed: () {},
-                  buttonColor: Colors.yellow,
+                Container(
+                  height: 35,
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(25)),
+                  child: MaterialButton(
+                    onPressed: total == 0.0
+                        ? null
+                        : () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PlaceOrderScreen()));
+                          },
+                    child: const Text('CHECK OUT'),
+                  ),
                 ),
               ],
             ),
@@ -141,10 +155,12 @@ class CartItems extends StatelessWidget {
             itemCount: cart.count,
             itemBuilder: (context, index) {
               final product = cart.getItems[index];
-              return CartModel(product: product, cart: context.read<Cart>(),);
+              return CartModel(
+                product: product,
+                cart: context.read<Cart>(),
+              );
             });
       },
     );
   }
 }
-
