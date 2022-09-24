@@ -310,6 +310,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                         'productid':
                                                             item.documentId,
                                                         'orderid': orderId,
+                                                        'ordername': item.name,
                                                         'orderimage': item
                                                             .imagesUrl.first,
                                                         'orderquantity':

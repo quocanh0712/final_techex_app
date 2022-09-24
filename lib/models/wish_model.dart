@@ -1,4 +1,3 @@
-
 import 'package:final_techex_app/providers/product_class.dart';
 import 'package:final_techex_app/providers/wish_provider.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +42,7 @@ class WishlistModel extends StatelessWidget {
                           color: Colors.black.withOpacity(0.9)),
                     ),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           product.price.toStringAsFixed(2),
@@ -57,28 +55,22 @@ class WishlistModel extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  context
-                                      .read<Wish>()
-                                      .removeProduct(product);
+                                  context.read<Wish>().removeProduct(product);
                                 },
-                                icon:
-                                    const Icon(Icons.delete_rounded)),
+                                icon: const Icon(Icons.delete_rounded)),
                             const SizedBox(
                               width: 10,
                             ),
-                            context
-                                        .watch<Cart>()
-                                        .getItems
-                                        .firstWhereOrNull(
+                            context.watch<Cart>().getItems.firstWhereOrNull(
                                             // ignore: avoid_types_as_parameter_names
                                             (element) =>
                                                 element.documentId ==
                                                 product.documentId) !=
-                                    null
+                                        null ||
+                                    product.quantity == 0
                                 ? const SizedBox()
                                 : IconButton(
                                     onPressed: () {
-                                     
                                       context.read<Cart>().addItem(
                                             product.name,
                                             product.price,
@@ -89,8 +81,7 @@ class WishlistModel extends StatelessWidget {
                                             product.suppId,
                                           );
                                     },
-                                    icon: const Icon(
-                                        Icons.shopping_cart)),
+                                    icon: const Icon(Icons.shopping_cart)),
                           ],
                         ),
                       ],
