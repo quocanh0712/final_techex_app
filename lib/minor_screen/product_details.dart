@@ -180,11 +180,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     )),
                         ],
                       ),
-                      Text(
-                          (widget.productList['instock'].toString()) +
-                              (' products available in stock'),
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.blueGrey)),
+                      widget.productList['instock'] == 0
+                          ? const Text('This product is out of stock',
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.blueGrey))
+                          : Text(
+                              (widget.productList['instock'].toString()) +
+                                  (' products available in stock'),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.blueGrey)),
                     ],
                   ),
                   const ProductDetailsHeader(
@@ -308,18 +312,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ? 'ADDED TO CART'
                             : 'ADD TO CART ',
                         onPressed: () {
-                          existingItemCart != null
-                              ? MyMessageHandler.showSnackBar(
-                                  _scaffoldKey, 'This item is already in cart')
-                              : context.read<Cart>().addItem(
-                                    widget.productList['productname'],
-                                    widget.productList['price'],
-                                    1,
-                                    widget.productList['instock'],
-                                    widget.productList['productimages'],
-                                    widget.productList['productId'],
-                                    widget.productList['sid'],
-                                  );
+                          if (widget.productList['instock'] == 0) {
+                            MyMessageHandler.showSnackBar(
+                                _scaffoldKey, 'This product is out of stock');
+                          } else if (existingItemCart != null) {
+                            MyMessageHandler.showSnackBar(_scaffoldKey,
+                                'This product is already in cart');
+                          } else {
+                            context.read<Cart>().addItem(
+                                  widget.productList['productname'],
+                                  widget.productList['price'],
+                                  1,
+                                  widget.productList['instock'],
+                                  widget.productList['productimages'],
+                                  widget.productList['productId'],
+                                  widget.productList['sid'],
+                                );
+                          }
                         },
                         width: 0.5,
                         buttonColor: Colors.yellow),

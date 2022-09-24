@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -22,6 +23,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   late String orderId;
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customers');
+
+  void showProgress() {
+    ProgressDialog progress = ProgressDialog(context: context);
+    progress.show(max: 100, msg: 'please wait..', progressBgColor: Colors.red);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,6 +282,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                   label:
                                                       'Confirm ${totalPaid.toStringAsFixed(2)} \$',
                                                   onPressed: () async {
+                                                    showProgress();
                                                     for (var item in context
                                                         .read<Cart>()
                                                         .getItems) {
