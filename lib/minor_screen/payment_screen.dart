@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_techex_app/providers/cart_provider.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
@@ -6,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   int selectedValue = 1;
+  late String orderId;
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customers');
 
@@ -37,12 +41,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Material(
+            return const Material(
               child: Center(child: CircularProgressIndicator()),
             );
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
+            // ignore: unused_local_variable
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
             return Material(
@@ -87,7 +92,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Total :',
                                         style: TextStyle(
                                             fontSize: 20,
@@ -97,12 +102,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         children: [
                                           Text(
                                             '${totalPaid.toStringAsFixed(2)} ',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.green,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text(
+                                          const Text(
                                             'USD',
                                             style: TextStyle(
                                                 fontSize: 20,
@@ -114,7 +119,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     ],
                                   ),
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.black,
                                   thickness: 2,
                                 ),
@@ -177,8 +182,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       selectedValue = value!;
                                     });
                                   },
-                                  title: Text('Cash On Delivery'),
-                                  subtitle: Text('Pay Cash At Home'),
+                                  title: const Text('Cash On Delivery'),
+                                  subtitle: const Text('Pay Cash At Home'),
                                 ),
                                 RadioListTile(
                                   value: 2,
@@ -188,15 +193,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       selectedValue = value!;
                                     });
                                   },
-                                  title: Text('Pay via Visa / Master Card'),
+                                  title:
+                                      const Text('Pay via Visa / Master Card'),
                                   subtitle: Row(
-                                    children: [
+                                    children: const [
                                       Icon(
                                         Icons.payment,
                                         color: Colors.blue,
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: EdgeInsets.symmetric(
                                             horizontal: 15),
                                         child: Icon(
                                           FontAwesomeIcons.ccMastercard,
@@ -218,9 +224,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       selectedValue = value!;
                                     });
                                   },
-                                  title: Text('Pay via Paypal'),
+                                  title: const Text('Pay via Paypal'),
                                   subtitle: Row(
-                                    children: [
+                                    children: const [
                                       Icon(
                                         FontAwesomeIcons.paypal,
                                         color: Colors.blue,
@@ -247,7 +253,117 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: Button(
                           label: 'Confirm ${totalPaid.toStringAsFixed(2)} USD',
                           onPressed: () {
-                            print(selectedValue);
+                            if (selectedValue == 1) {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 100),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(
+                                                'Pay At Home ${totalPaid.toStringAsFixed(2)} \$',
+                                                style: const TextStyle(
+                                                    fontSize: 24),
+                                              ),
+                                              Button(
+                                                  label:
+                                                      'Confirm ${totalPaid.toStringAsFixed(2)} \$',
+                                                  onPressed: () async {
+                                                    for (var item in context
+                                                        .read<Cart>()
+                                                        .getItems) {
+                                                      CollectionReference
+                                                          orderRef =
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  'orders');
+                                                      orderId =
+                                                          const Uuid().v4();
+                                                      await orderRef
+                                                          .doc(orderId)
+                                                          .set({
+                                                        'cid': data['cid'],
+                                                        'customername':
+                                                            data['name'],
+                                                        'email': data['email'],
+                                                        'address':
+                                                            data['address'],
+                                                        'phone': data['phone'],
+                                                        'profileimage': data[
+                                                            'profileimage'],
+                                                        'sid': item.suppId,
+                                                        'productid':
+                                                            item.documentId,
+                                                        'orderid': orderId,
+                                                        'orderimage': item
+                                                            .imagesUrl.first,
+                                                        'orderquantity':
+                                                            item.quantity,
+                                                        'orderprice':
+                                                            item.quantity *
+                                                                item.price,
+                                                        'deliverystatus':
+                                                            'preparing',
+                                                        'deliverydate': '',
+                                                        'orderdate':
+                                                            DateTime.now(),
+                                                        'paymentstatus':
+                                                            'cash on delivery',
+                                                        'orderreview': false,
+                                                      }).whenComplete(() async {
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .runTransaction(
+                                                                (transaction) async {
+                                                          DocumentReference
+                                                              documentReference =
+                                                              FirebaseFirestore
+                                                                  .instance
+                                                                  .collection(
+                                                                      'products')
+                                                                  .doc(item
+                                                                      .documentId);
+                                                          DocumentSnapshot
+                                                              snapshot2 =
+                                                              await transaction.get(
+                                                                  documentReference);
+                                                          transaction.update(
+                                                              documentReference,
+                                                              {
+                                                                'instock': snapshot2[
+                                                                        'instock'] -
+                                                                    item.quantity
+                                                              });
+                                                        });
+                                                      });
+                                                    }
+                                                    context
+                                                        .read<Cart>()
+                                                        .clearCart();
+                                                    Navigator.popUntil(
+                                                        context,
+                                                        ModalRoute.withName(
+                                                            '/customer_home'));
+                                                  },
+                                                  width: 0.9,
+                                                  buttonColor: Colors.yellow)
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                            } else if (selectedValue == 2) {
+                              print('visa');
+                            } else if (selectedValue == 3) {
+                              print('paypal');
+                            }
                           },
                           width: 1,
                           buttonColor: Colors.yellow),

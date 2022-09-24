@@ -34,7 +34,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Material(
+            return const Material(
               child: Center(child: CircularProgressIndicator()),
             );
           }
@@ -106,7 +106,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                                         child: Row(
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                   topLeft: Radius.circular(15),
                                                   bottomLeft:
                                                       Radius.circular(15)),
@@ -127,6 +127,8 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceAround,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       order.name,
@@ -149,7 +151,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                                                           order.price
                                                               .toStringAsFixed(
                                                                   2),
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
@@ -194,7 +196,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentScreen()));
+                                    builder: (context) => const PaymentScreen()));
                           },
                           width: 1,
                           buttonColor: Colors.yellow),
