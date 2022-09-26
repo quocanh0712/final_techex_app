@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomerOrderModel extends StatelessWidget {
   final dynamic order;
@@ -128,9 +127,16 @@ class CustomerOrderModel extends StatelessWidget {
                         ),
                       ],
                     ),
-                    order['deliverystatus'] == 'Shipping'
-                        ? Text(('Delivery Date : ') + (order['deliverydate']),
-                            style: const TextStyle(fontSize: 15))
+                    order['deliverystatus'] == 'shipping'
+                        ? Text(
+                            ('Delivery Date : ') +
+                                (DateFormat('yyyy-MM-dd')
+                                        .format(order['deliverydate'].toDate()))
+                                    .toString(),
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold))
                         : const Text(''),
                     order['deliverystatus'] == 'delivered' &&
                             order['orderreview'] == false
