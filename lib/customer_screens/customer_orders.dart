@@ -36,7 +36,7 @@ class CustomerOrders extends StatelessWidget {
           if (snapshot.data!.docs.isEmpty) {
             return const Center(
                 child: Text(
-              'You Have Not \n\n Active Orders ! ',
+              'You Have No \n\n Active Orders ! ',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 26,
