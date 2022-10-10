@@ -758,6 +758,27 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
+  - Stripe (22.8.2):
+    - Stripe/Stripe3DS2 (= 22.8.2)
+    - StripeApplePay (= 22.8.2)
+    - StripeCore (= 22.8.2)
+    - StripeUICore (= 22.8.2)
+  - Stripe/Stripe3DS2 (22.8.2):
+    - StripeApplePay (= 22.8.2)
+    - StripeCore (= 22.8.2)
+    - StripeUICore (= 22.8.2)
+  - stripe_ios (0.0.1):
+    - Flutter
+    - Stripe (~> 22.8.1)
+    - StripeFinancialConnections (~> 22.8.1)
+  - StripeApplePay (22.8.2):
+    - StripeCore (= 22.8.2)
+  - StripeCore (22.8.2)
+  - StripeFinancialConnections (22.8.2):
+    - StripeCore (= 22.8.2)
+    - StripeUICore (= 22.8.2)
+  - StripeUICore (22.8.2):
+    - StripeCore (= 22.8.2)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -766,6 +787,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -791,6 +813,11 @@ SPEC REPOS:
     - Libuv-gRPC
     - nanopb
     - PromisesObjC
+    - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripeFinancialConnections
+    - StripeUICore
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -805,6 +832,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  stripe_ios:
+    :path: ".symlinks/plugins/stripe_ios/ios"
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -835,6 +864,12 @@ SPEC CHECKSUMS:
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  Stripe: 9b02a044432c68a3b63694e4d09c6b30c2c8dfef
+  stripe_ios: 8ad17b19d7d2189d7c19fd15d9ecffeca696390f
+  StripeApplePay: 1b2dca823c710b7f09667e1b7d9290008dd54bec
+  StripeCore: c03842e8c9feed545ac5976efe2cc1429d5ba553
+  StripeFinancialConnections: 2aef6c41e26aeb6b93ee48e7d7933ad73b01f35d
+  StripeUICore: 3efbad959661e9f3e9ee1855c84a21747c10f285
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
