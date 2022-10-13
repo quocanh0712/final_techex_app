@@ -20,6 +20,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return Container(
       color: Colors.white,
       child: SafeArea(
+        bottom: false,
         top: false,
         child: Scaffold(
           backgroundColor: Colors.blueGrey.shade100.withOpacity(1),
@@ -100,4 +101,3 @@ class WishItems extends StatelessWidget {
     );
   }
 }
-
