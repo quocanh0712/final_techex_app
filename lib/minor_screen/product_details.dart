@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
-import 'package:final_techex_app/main_screens/store_detail.dart';
+import 'package:final_techex_app/minor_screen/store_detail.dart';
 import 'package:final_techex_app/minor_screen/full_screen_view.dart';
 import 'package:final_techex_app/models/product_model.dart';
 import 'package:final_techex_app/providers/cart_provider.dart';
@@ -373,21 +373,19 @@ class ProductDetailsHeader extends StatelessWidget {
               height: 40,
               width: 50,
               child: Divider(
-                color: Color.fromARGB(255, 59, 204, 73),
+                color: Colors.blue,
                 thickness: 1,
               )),
           Text(
             label,
             style: const TextStyle(
-                color: Color.fromARGB(255, 59, 204, 73),
-                fontSize: 24,
-                fontWeight: FontWeight.bold),
+                color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
               height: 40,
               width: 50,
               child: Divider(
-                color: Color.fromARGB(255, 59, 204, 73),
+                color: Colors.blue,
                 thickness: 1,
               )),
         ],

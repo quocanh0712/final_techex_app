@@ -65,7 +65,7 @@ class _ProductModelState extends State<ProductModel> {
                         Text(
                           widget.products['price'].toStringAsFixed(2) + ' \$',
                           style: const TextStyle(
-                              color: Colors.green,
+                              color: Color.fromARGB(255, 31, 129, 117),
                               fontSize: 16,
                               fontWeight: FontWeight.w600),
                         ),

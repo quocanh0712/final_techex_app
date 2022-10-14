@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_techex_app/main_screens/store_detail.dart';
+import 'package:final_techex_app/minor_screen/store_detail.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:flutter/material.dart';
 

@@ -4,7 +4,7 @@ import 'package:final_techex_app/dashboard_components/manage_products.dart';
 import 'package:final_techex_app/dashboard_components/supplier_balance.dart';
 import 'package:final_techex_app/dashboard_components/supplier_orders.dart';
 import 'package:final_techex_app/dashboard_components/supplier_statics.dart';
-import 'package:final_techex_app/main_screens/store_detail.dart';
+import 'package:final_techex_app/minor_screen/store_detail.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +96,7 @@ class DashboardScreen extends StatelessWidget {
                     Text(
                       label[index].toUpperCase(),
                       style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 20,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,

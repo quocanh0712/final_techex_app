@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_techex_app/minor_screen/edit_store.dart';
 import 'package:final_techex_app/models/product_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,12 +87,19 @@ class _StoreDetailState extends State<StoreDetail> {
                               height: 35,
                               width: MediaQuery.of(context).size.width * 0.3,
                               decoration: BoxDecoration(
-                                  color: Colors.yellow,
+                                  color: Colors.white,
                                   border:
                                       Border.all(width: 3, color: Colors.white),
                                   borderRadius: BorderRadius.circular(15)),
                               child: MaterialButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditStore(
+                                                data: data,
+                                              )));
+                                },
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -109,7 +117,7 @@ class _StoreDetailState extends State<StoreDetail> {
                               height: 35,
                               width: MediaQuery.of(context).size.width * 0.3,
                               decoration: BoxDecoration(
-                                  color: Colors.yellow,
+                                  color: Colors.white,
                                   border:
                                       Border.all(width: 3, color: Colors.white),
                                   borderRadius: BorderRadius.circular(15)),
