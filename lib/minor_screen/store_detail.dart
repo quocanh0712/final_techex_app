@@ -51,10 +51,15 @@ class _StoreDetailState extends State<StoreDetail> {
             backgroundColor: Colors.blueGrey.shade100,
             appBar: AppBar(
               toolbarHeight: 100,
-              flexibleSpace: Image.asset(
-                'images/inapp/storepanel.jpeg',
-                fit: BoxFit.cover,
-              ),
+              flexibleSpace: data['coverimage'] == ''
+                  ? Image.asset(
+                      'images/inapp/storepanel.jpeg',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      data['coverimage'],
+                      fit: BoxFit.cover,
+                    ),
               title: Row(children: [
                 Container(
                   height: 80,
@@ -78,7 +83,8 @@ class _StoreDetailState extends State<StoreDetail> {
                     children: [
                       Text(
                         data['storename'].toUpperCase(),
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       data['sid'] ==
                               FirebaseAuth.instance.currentUser!

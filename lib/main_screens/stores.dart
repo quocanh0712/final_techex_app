@@ -64,6 +64,9 @@ class StoresScreen extends StatelessWidget {
                                   ))
                             ],
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             snapshot.data!.docs[index]['storename'],
                             style: const TextStyle(fontSize: 18),
