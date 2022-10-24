@@ -1,3 +1,4 @@
+import 'package:final_techex_app/minor_screen/edit_products.dart';
 import 'package:final_techex_app/minor_screen/product_details.dart';
 import 'package:final_techex_app/providers/wish_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,7 +75,7 @@ class _ProductModelState extends State<ProductModel> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600)),
                                 Text(
-                                  widget.products['price'].toStringAsFixed(2),
+                                  widget.products['price'].toString(),
                                   style: widget.products['discount'] != 0
                                       ? const TextStyle(
                                           color: Colors.grey,
@@ -111,7 +112,14 @@ class _ProductModelState extends State<ProductModel> {
                             widget.products['sid'] ==
                                     FirebaseAuth.instance.currentUser!.uid
                                 ? IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EditProduct(
+                                                    items: widget.products,
+                                                  )));
+                                    },
                                     icon: const Icon(
                                       Icons.edit,
                                       color: Colors.red,

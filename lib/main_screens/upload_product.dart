@@ -52,7 +52,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         imageQuality: 95,
       );
       setState(() {
-        imagesFileList = uploadedImages!;
+        imagesFileList = uploadedImages;
       });
     } catch (e) {
       setState(() {
@@ -102,8 +102,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   Future<void> uploadImages() async {
     if (mainCategoryValue != 'Select Category' &&
         subCategoryValue != 'SubCategory') {
-      if (_formKey.currentState!.validate()) {
-        // ignore: avoid_print
+      if (_formKey.currentState!.validate() && discount != null) {
         _formKey.currentState!.save();
 
         if (imagesFileList!.isNotEmpty) {
