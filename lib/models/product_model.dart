@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
 class ProductModel extends StatefulWidget {
-  final dynamic products;
+  final dynamic products ;
   const ProductModel({Key? key, required this.products}) : super(key: key);
 
   @override

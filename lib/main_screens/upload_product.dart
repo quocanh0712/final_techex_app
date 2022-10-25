@@ -102,7 +102,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   Future<void> uploadImages() async {
     if (mainCategoryValue != 'Select Category' &&
         subCategoryValue != 'SubCategory') {
-      if (_formKey.currentState!.validate() && discount != null) {
+      if (_formKey.currentState!.validate() && discount == null) {
         _formKey.currentState!.save();
 
         if (imagesFileList!.isNotEmpty) {
@@ -219,7 +219,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                         child: imagesFileList != null
                             ? previewsImages()
                             : const Center(
-                                child: Text('No photos selected !'),
+                                child: Text(
+                                  'No photos selected !',
+                                ),
                               ),
                       ),
                       SizedBox(

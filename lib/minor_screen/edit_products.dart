@@ -110,12 +110,12 @@ class _EditProductState extends State<EditProduct> {
   }
 
   Future uploadImages() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (mainCategoryValue != 'Select Category' &&
+        subCategoryValue != 'SubCategory') {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
 
-      if (imagesFileList!.isNotEmpty) {
-        if (mainCategoryValue != 'Select Category' &&
-            subCategoryValue != 'SubCategory') {
+        if (imagesFileList!.isNotEmpty) {
           try {
             for (var image in imagesFileList!) {
               firebase_storage.Reference ref = firebase_storage
@@ -149,8 +149,8 @@ class _EditProductState extends State<EditProduct> {
           .collection('products')
           .doc(widget.items['productId']);
       transaction.update(documentReference, {
-        /*'maincategory': mainCategoryValue,
-        'subcategory': subCategoryValue, */
+        'maincategory': mainCategoryValue,
+        'subcategory': subCategoryValue,
         'price': price,
         'instock': quantity,
         'productname': productName,
