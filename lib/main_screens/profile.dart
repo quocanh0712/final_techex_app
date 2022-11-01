@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_techex_app/customer_screens/address_book.dart';
 import 'package:final_techex_app/customer_screens/customer_orders.dart';
 import 'package:final_techex_app/customer_screens/wishlist.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
@@ -235,11 +236,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   const LightGreenDivider(),
                                   RepeatedListTile(
+                                    onPressed: FirebaseAuth
+                                            .instance.currentUser!.isAnonymous
+                                        ? null
+                                        : () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const AddressBook()));
+                                          },
                                     title: 'Address',
-                                    subTitle: data['address'] == ''
-                                        ? 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam'
-                                        : data['address'],
                                     icon: Icons.location_city,
+                                    subTitle: userAddress(data),
+                                    /* data['address'] == ''
+                                        ? 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam'
+                                        : data['address'], 
+                                     */
                                   ),
                                 ],
                               ),
@@ -307,6 +320,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: CircularProgressIndicator(color: Colors.purple));
       },
     );
+  }
+
+  String userAddress(dynamic data) {
+    if (FirebaseAuth.instance.currentUser!.isAnonymous == true) {
+      return 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam';
+    } else if (FirebaseAuth.instance.currentUser!.isAnonymous == false &&
+        data['address'] == '') {
+      return 'Set your address';
+    }
+    return data['address'];
   }
 }
 
