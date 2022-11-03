@@ -17,7 +17,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  final String name;
+  final String phone;
+  final String address;
+  const PaymentScreen({Key? key, required this.name, required this.phone, required this.address}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -304,11 +307,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                           .set({
                                                         'cid': data['cid'],
                                                         'customername':
-                                                            data['name'],
+                                                            widget.name,
                                                         'email': data['email'],
                                                         'address':
-                                                            data['address'],
-                                                        'phone': data['phone'],
+                                                            widget.address,
+                                                        'phone': widget.phone,
                                                         'profileimage': data[
                                                             'profileimage'],
                                                         'sid': item.suppId,

@@ -4,6 +4,7 @@ import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class AddressBook extends StatefulWidget {
   const AddressBook({Key? key}) : super(key: key);
@@ -18,6 +19,52 @@ class _AddressBookState extends State<AddressBook> {
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('address')
       .snapshots();
+
+  Future dfAddressFalse(dynamic item) async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('customers')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('address')
+          .doc(item.id);
+      transaction.update(documentReference, {'default': false});
+    });
+  }
+
+  Future dfAddressTrue(dynamic customerInfor) async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('customers')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('address')
+          .doc(customerInfor['addressid']);
+      transaction.update(documentReference, {'default': true});
+    });
+  }
+
+  Future updateProfile(dynamic customerInfor) async {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection('customers')
+          .doc(FirebaseAuth.instance.currentUser!.uid);
+      transaction.update(documentReference, {
+        'address':
+            '${customerInfor['country']} - ${customerInfor['state']} - ${customerInfor['city']}',
+        'phone': customerInfor['phone']
+      });
+    });
+  }
+
+  void showProgress() {
+    ProgressDialog progress = ProgressDialog(context: context);
+    progress.show(max: 100, msg: 'please wait..', progressBgColor: Colors.red);
+  }
+
+  /*void hideProgress() {
+    ProgressDialog progress = ProgressDialog(context: context);
+    progress.close();
+  } */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,66 +112,65 @@ class _AddressBookState extends State<AddressBook> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         var customerInfor = snapshot.data!.docs[index];
-                        return GestureDetector(
-                          onTap: () async {
-                            for (var item in snapshot.data!.docs) {
+                        return Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (direction) async =>
                               await FirebaseFirestore.instance
                                   .runTransaction((transaction) async {
-                                DocumentReference documentReference =
-                                    FirebaseFirestore.instance
-                                        .collection('customers')
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser!.uid)
-                                        .collection('address')
-                                        .doc(item.id);
-                                transaction.update(
-                                    documentReference, {'default': false});
-                              });
-                            }
-                            await FirebaseFirestore.instance
-                                .runTransaction((transaction) async {
-                              DocumentReference documentReference =
-                                  FirebaseFirestore.instance
-                                      .collection('customers')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                      .collection('address')
-                                      .doc(customerInfor['addressid']);
-                              transaction
-                                  .update(documentReference, {'default': true});
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              color: Colors.green.shade500,
-                              child: ListTile(
-                                trailing: customerInfor['default'] == true
-                                    ? const Icon(Icons.home)
-                                    : const SizedBox(),
-                                title: SizedBox(
-                                  height: 50,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          '${customerInfor['firstname']} ${customerInfor['lastname']} '),
-                                      Text(customerInfor['phone'])
-                                    ],
+                            DocumentReference docReference = FirebaseFirestore
+                                .instance
+                                .collection('customers')
+                                .doc(FirebaseAuth.instance.currentUser!.uid)
+                                .collection('address')
+                                .doc(customerInfor['addressid']);
+                            transaction.delete(docReference);
+                          }),
+                          child: GestureDetector(
+                            onTap: () async {
+                              showProgress();
+                              for (var item in snapshot.data!.docs) {
+                                await dfAddressFalse(item);
+                              }
+                              await dfAddressTrue(customerInfor).whenComplete(
+                                  () => updateProfile(customerInfor));
+                              Future.delayed(Duration(microseconds: 100))
+                                  .whenComplete(() => Navigator.pop(context));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                color: customerInfor['default'] == true
+                                    ? Colors.white
+                                    : Colors.yellow.shade200,
+                                child: ListTile(
+                                  trailing: customerInfor['default'] == true
+                                      ? const Icon(Icons.home,
+                                          color: Colors.green)
+                                      : const SizedBox(),
+                                  title: SizedBox(
+                                    height: 50,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '${customerInfor['firstname']} ${customerInfor['lastname']} '),
+                                        Text(customerInfor['phone'])
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                subtitle: SizedBox(
-                                  height: 70,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          'City/State: ${customerInfor['city']} - ${customerInfor['state']} '),
-                                      Text(
-                                          'Country: ${customerInfor['country']} ')
-                                    ],
+                                  subtitle: SizedBox(
+                                    height: 70,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            'City/State: ${customerInfor['city']} - ${customerInfor['state']} '),
+                                        Text(
+                                            'Country: ${customerInfor['country']} ')
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
