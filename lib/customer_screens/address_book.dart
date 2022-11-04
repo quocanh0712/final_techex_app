@@ -133,7 +133,7 @@ class _AddressBookState extends State<AddressBook> {
                               }
                               await dfAddressTrue(customerInfor).whenComplete(
                                   () => updateProfile(customerInfor));
-                              Future.delayed(Duration(microseconds: 100))
+                              Future.delayed(const Duration(microseconds: 100))
                                   .whenComplete(() => Navigator.pop(context));
                             },
                             child: Padding(
