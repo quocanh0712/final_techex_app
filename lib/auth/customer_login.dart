@@ -2,6 +2,7 @@ import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../minor_screen/forgot_password.dart';
 import '../widgets/auth_widgets.dart';
 import '../widgets/snackbar.dart';
 
@@ -167,8 +168,13 @@ class _CustomerLoginState extends State<CustomerLogin> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
-                          child: const Text('Forget Password ?',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ForgotPassword()));
+                          },
+                          child: const Text('Forgot Password ?',
                               style: TextStyle(
                                   fontSize: 18, fontStyle: FontStyle.italic))),
                       processing == true
@@ -200,3 +206,15 @@ class _CustomerLoginState extends State<CustomerLogin> {
     );
   }
 }
+
+var textFormDecoration = InputDecoration(
+  labelText: 'Full Name',
+  hintText: 'Enter your full name',
+  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+  enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.green, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+  focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.black, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+);
