@@ -35,8 +35,9 @@ class _SupplierLoginState extends State<SupplierLogin> {
         if (FirebaseAuth.instance.currentUser!.emailVerified) {
           _formKey.currentState!.reset();
 
-          await Future.delayed(const Duration(microseconds: 100)).whenComplete(() =>
-              {Navigator.pushReplacementNamed(context, '/supplier_home')});
+          await Future.delayed(const Duration(microseconds: 100)).whenComplete(
+              () =>
+                  {Navigator.pushReplacementNamed(context, '/supplier_home')});
         } else {
           MyMessageHandler.showSnackBar(
               _scaffoldKey, 'Please verification your email.');
@@ -101,7 +102,8 @@ class _SupplierLoginState extends State<SupplierLogin> {
                                           // ignore: avoid_print
                                           print(e);
                                         }
-                                        Future.delayed(const Duration(seconds: 3))
+                                        Future.delayed(
+                                                const Duration(seconds: 3))
                                             .whenComplete(() {
                                           setState(() {
                                             sendEmailVerification = false;
@@ -109,7 +111,7 @@ class _SupplierLoginState extends State<SupplierLogin> {
                                         });
                                       },
                                       width: 0.6,
-                                      buttonColor: Colors.yellow),
+                                      buttonColor: Colors.red),
                                 )
                               : const SizedBox()),
                       Padding(

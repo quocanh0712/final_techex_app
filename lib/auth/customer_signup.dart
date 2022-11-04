@@ -85,6 +85,12 @@ class _CustomerRegisterState extends State<CustomerRegister> {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
 
+          try {
+            await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+          } catch (e) {
+            print(e);
+          }
+
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
               .ref('customer_image/$email.jpg');
@@ -93,6 +99,9 @@ class _CustomerRegisterState extends State<CustomerRegister> {
           _uid = FirebaseAuth.instance.currentUser!.uid;
 
           profileImage = await ref.getDownloadURL();
+
+          await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+          await FirebaseAuth.instance.currentUser!.updatePhotoURL(profileImage);
           await customer.doc(_uid).set({
             'name': name,
             'email': email,
@@ -107,7 +116,6 @@ class _CustomerRegisterState extends State<CustomerRegister> {
           });
           await Future.delayed(const Duration(microseconds: 100)).whenComplete(
               () => Navigator.pushReplacementNamed(context, '/customer_login'));
-    
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             setState(() {
