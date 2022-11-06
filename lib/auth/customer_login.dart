@@ -1,6 +1,8 @@
 import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../minor_screen/forgot_password.dart';
 import '../widgets/auth_widgets.dart';
@@ -14,6 +16,20 @@ class CustomerLogin extends StatefulWidget {
 }
 
 class _CustomerLoginState extends State<CustomerLogin> {
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   late String email;
   late String password;
 
@@ -172,7 +188,8 @@ class _CustomerLoginState extends State<CustomerLogin> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ForgotPassword()));
+                                    builder: (context) =>
+                                        const ForgotPassword()));
                           },
                           child: const Text('Forgot Password ?',
                               style: TextStyle(
@@ -195,6 +212,8 @@ class _CustomerLoginState extends State<CustomerLogin> {
                               context, '/customer_signup');
                         },
                       ),
+                      divider(),
+                      googleLoginButton()
                     ],
                   ),
                 ),
@@ -218,3 +237,61 @@ var textFormDecoration = InputDecoration(
       borderSide: const BorderSide(color: Colors.black, width: 2),
       borderRadius: BorderRadius.circular(25)),
 );
+
+Widget divider() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(
+      horizontal: 30,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        SizedBox(
+          width: 80,
+          child: Divider(
+            color: Colors.grey,
+            thickness: 1,
+          ),
+        ),
+        Text(
+          '  Or  ',
+          style: TextStyle(color: Colors.grey, fontSize: 18),
+        ),
+        SizedBox(
+          width: 80,
+          child: Divider(
+            color: Colors.grey,
+            thickness: 1,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget googleLoginButton() {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(50, 50, 50, 20),
+    child: Material(
+      elevation: 3,
+      color: Colors.grey.shade300,
+      borderRadius: BorderRadius.circular(6),
+      child: MaterialButton(
+        onPressed: () async {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            Icon(
+              FontAwesomeIcons.google,
+              color: Colors.red,
+            ),
+            Text(
+              'Sign In With Google',
+              style: TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
