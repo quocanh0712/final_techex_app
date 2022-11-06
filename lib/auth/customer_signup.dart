@@ -99,6 +99,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
           _uid = FirebaseAuth.instance.currentUser!.uid;
 
           profileImage = await ref.getDownloadURL();
+          
 
           await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
           await FirebaseAuth.instance.currentUser!.updatePhotoURL(profileImage);

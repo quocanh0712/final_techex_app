@@ -3,6 +3,7 @@ import 'package:final_techex_app/customer_screens/address_book.dart';
 import 'package:final_techex_app/customer_screens/customer_orders.dart';
 import 'package:final_techex_app/customer_screens/wishlist.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
+import 'package:final_techex_app/minor_screen/update_password.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -279,7 +280,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   RepeatedListTile(
                                     title: 'Change Password',
                                     icon: Icons.lock_clock_sharp,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const UpdatePassword()));
+                                    },
                                   ),
                                   const LightGreenDivider(),
                                   RepeatedListTile(
