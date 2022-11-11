@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,20 @@ class CustomerLogin extends StatefulWidget {
 }
 
 class _CustomerLoginState extends State<CustomerLogin> {
+  CollectionReference customer =
+      FirebaseFirestore.instance.collection('customers');
+
+  Future<bool> checkIfDocExits(String docId) async {
+    try {
+      var doc = await customer.doc(docId).get();
+      return doc.exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool docExits = false;
+
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -27,7 +44,28 @@ class _CustomerLoginState extends State<CustomerLogin> {
       idToken: googleAuth?.idToken,
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .whenComplete(() async {
+      User user = FirebaseAuth.instance.currentUser!;
+      print(googleUser!.id);
+      print(FirebaseAuth.instance.currentUser!.uid);
+      print(googleUser);
+      print(user);
+      docExits = await checkIfDocExits(user.uid);
+
+      docExits == false ? 
+      //  _uid = FirebaseAuth.instance.currentUser!.uid;
+      await customer.doc(user.uid).set({
+        'name': user.displayName,
+        'email': user.email,
+        'profileimage': user.photoURL,
+        'phone': '',
+        'address': '',
+        'cid': user.uid,
+      }).then(
+          (value) => Navigator.pushReplacementNamed(context, '/customer_home')) : Navigator.pushReplacementNamed(context, '/customer_home');
+    });
   }
 
   late String email;
@@ -113,7 +151,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
                                         await FirebaseAuth.instance.currentUser!
                                             .sendEmailVerification();
                                       } catch (e) {
-                                        // ignore: avoid_print
+                                        
                                         print(e);
                                       }
                                       Future.delayed(const Duration(seconds: 3))
@@ -264,7 +302,9 @@ class _CustomerLoginState extends State<CustomerLogin> {
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(6),
         child: MaterialButton(
-          onPressed: () async {},
+          onPressed: () {
+            signInWithGoogle();
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
