@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/welcome_screen',
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
+       
         '/customer_home': (context) => const CustomerHomeScreen(),
         '/supplier_home': (context) => const SupplierHomeScreen(),
         '/customer_signup': (context) => const CustomerRegister(),

@@ -224,6 +224,64 @@ class _CustomerLoginState extends State<CustomerLogin> {
       ),
     );
   }
+
+  Widget divider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          SizedBox(
+            width: 80,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+          Text(
+            '  Or  ',
+            style: TextStyle(color: Colors.grey, fontSize: 18),
+          ),
+          SizedBox(
+            width: 80,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget googleLoginButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(50, 50, 50, 20),
+      child: Material(
+        elevation: 3,
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(6),
+        child: MaterialButton(
+          onPressed: () async {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              Icon(
+                FontAwesomeIcons.google,
+                color: Colors.red,
+              ),
+              Text(
+                'Sign In With Google',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 var textFormDecoration = InputDecoration(
@@ -237,61 +295,3 @@ var textFormDecoration = InputDecoration(
       borderSide: const BorderSide(color: Colors.black, width: 2),
       borderRadius: BorderRadius.circular(25)),
 );
-
-Widget divider() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(
-      horizontal: 30,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        SizedBox(
-          width: 80,
-          child: Divider(
-            color: Colors.grey,
-            thickness: 1,
-          ),
-        ),
-        Text(
-          '  Or  ',
-          style: TextStyle(color: Colors.grey, fontSize: 18),
-        ),
-        SizedBox(
-          width: 80,
-          child: Divider(
-            color: Colors.grey,
-            thickness: 1,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget googleLoginButton() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(50, 50, 50, 20),
-    child: Material(
-      elevation: 3,
-      color: Colors.grey.shade300,
-      borderRadius: BorderRadius.circular(6),
-      child: MaterialButton(
-        onPressed: () async {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            Icon(
-              FontAwesomeIcons.google,
-              color: Colors.red,
-            ),
-            Text(
-              'Sign In With Google',
-              style: TextStyle(color: Colors.red, fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
