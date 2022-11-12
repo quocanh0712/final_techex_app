@@ -1,6 +1,7 @@
 import 'package:final_techex_app/auth/customer_signup.dart';
 import 'package:final_techex_app/auth/supplier_signup.dart';
 import 'package:final_techex_app/main_screens/customer_home.dart';
+import 'package:final_techex_app/main_screens/onboarding_screen.dart';
 import 'package:final_techex_app/main_screens/supplier_home.dart';
 import 'package:final_techex_app/main_screens/welcome_screen.dart';
 import 'package:final_techex_app/providers/cart_provider.dart';
@@ -17,7 +18,7 @@ import 'auth/supplier_login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   Stripe.publishableKey = stripePublishableKey;
+  Stripe.publishableKey = stripePublishableKey;
   Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
   Stripe.urlScheme = 'flutterstripe';
   await Stripe.instance.applySettings();
@@ -36,10 +37,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //home: WelcomeScreen(),
-      initialRoute: '/welcome_screen',
+      initialRoute: '/onboarding_screen',
       routes: {
         '/welcome_screen': (context) => const WelcomeScreen(),
-       
+        '/onboarding_screen': (context) => const OnBoardingScreen(),
         '/customer_home': (context) => const CustomerHomeScreen(),
         '/supplier_home': (context) => const SupplierHomeScreen(),
         '/customer_signup': (context) => const CustomerRegister(),
