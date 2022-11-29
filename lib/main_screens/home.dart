@@ -1,3 +1,9 @@
+import 'package:final_techex_app/galleries/camera_gallery.dart';
+import 'package:final_techex_app/galleries/computer_gallery.dart';
+import 'package:final_techex_app/galleries/electronic_gallery.dart';
+import 'package:final_techex_app/galleries/householdappliances_gallery.dart';
+import 'package:final_techex_app/galleries/phone_gallery.dart';
+import 'package:final_techex_app/galleries/smartwatch_gallery.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/fake_search.dart';
@@ -15,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 6,
       child: Scaffold(
+          backgroundColor: Colors.blueGrey.shade100.withOpacity(0.5),
           appBar: AppBar(
             elevation: 0,
             backgroundColor: const Color.fromARGB(255, 31, 129, 117),
@@ -36,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: const TabBarView(
             children: [
-              Center(child: Text('Phone & accessories screen')),
-              Center(child: Text('Electronic Device screen')),
-              Center(child: Text('Computer & Laptop screen')),
-              Center(child: Text('Camera & Camcorder screen')),
-              Center(child: Text('Smart Watch screen')),
-              Center(child: Text('Household Appliances screen')),
+              PhoneGalleryScreen(),
+              ElectronicGalleryScreen(),
+              ComputerGalleryScreen(),
+              CameraGalleryScreen(),
+              SmartWatchGalleryScreen(),
+              AppliancesGalleryScreen(),
             ],
           )),
     );

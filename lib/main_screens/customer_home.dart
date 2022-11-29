@@ -1,9 +1,12 @@
+import 'package:badges/badges.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
 import 'package:final_techex_app/main_screens/category.dart';
 import 'package:final_techex_app/main_screens/profile.dart';
 import 'package:final_techex_app/main_screens/stores.dart';
+import 'package:final_techex_app/providers/cart_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'home.dart';
 
@@ -32,27 +35,36 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
         backgroundColor: const Color.fromARGB(255, 31, 129, 117),
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.amber.shade200,
         unselectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
-        items: const [
-          BottomNavigationBarItem(
+        items: [
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Category',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.shop),
             label: 'Stores',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: Badge(
+              showBadge: context.read<Cart>().getItems.isEmpty ? false : true,
+              padding: const EdgeInsets.all(2),
+              badgeColor: const Color.fromARGB(255, 77, 230, 82),
+              badgeContent: Text(
+                context.watch<Cart>().getItems.length.toString(),
+                style: const TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              child: const Icon(Icons.shopping_cart),
+            ),
             label: 'Cart',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'profile',
           ),

@@ -1,3 +1,5 @@
+import 'package:final_techex_app/minor_screen/forgot_password.dart';
+import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,7 @@ class _SupplierLoginState extends State<SupplierLogin> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
   bool passwordVisible = false;
+  bool sendEmailVerification = false;
 
   void logIn() async {
     setState(() {
@@ -29,10 +32,21 @@ class _SupplierLoginState extends State<SupplierLogin> {
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+        await FirebaseAuth.instance.currentUser!.reload();
+        if (FirebaseAuth.instance.currentUser!.emailVerified) {
+          _formKey.currentState!.reset();
 
-        _formKey.currentState!.reset();
-
-        Navigator.pushReplacementNamed(context, '/supplier_home');
+          await Future.delayed(const Duration(microseconds: 100)).whenComplete(
+              () =>
+                  {Navigator.pushReplacementNamed(context, '/supplier_home')});
+        } else {
+          MyMessageHandler.showSnackBar(
+              _scaffoldKey, 'Please verification your email.');
+          setState(() {
+            processing = false;
+            sendEmailVerification = true;
+          });
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -52,7 +66,7 @@ class _SupplierLoginState extends State<SupplierLogin> {
       setState(() {
         processing = false;
       });
-      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields');
+      MyMessageHandler.showSnackBar(_scaffoldKey, 'Please fill all fields.');
     }
   }
 
@@ -74,7 +88,33 @@ class _SupplierLoginState extends State<SupplierLogin> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const AuthHeaderLabel(headerLabel: 'Log In'),
-                      const SizedBox(height: 50),
+                      SizedBox(
+                          height: 50,
+                          child: sendEmailVerification == true
+                              ? Center(
+                                  child: Button2(
+                                      label: 'Resend Email Verification',
+                                      onPressed: () async {
+                                        try {
+                                          await FirebaseAuth
+                                              .instance.currentUser!
+                                              .sendEmailVerification();
+                                        } catch (e) {
+                                          // ignore: avoid_print
+                                          print(e);
+                                        }
+                                        Future.delayed(
+                                                const Duration(seconds: 3))
+                                            .whenComplete(() {
+                                          setState(() {
+                                            sendEmailVerification = false;
+                                          });
+                                        });
+                                      },
+                                      width: 0.6,
+                                      buttonColor: Colors.red),
+                                )
+                              : const SizedBox()),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
@@ -131,8 +171,14 @@ class _SupplierLoginState extends State<SupplierLogin> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
-                          child: const Text('Forget Password ?',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword()));
+                          },
+                          child: const Text('Forgot Password ?',
                               style: TextStyle(
                                   fontSize: 18, fontStyle: FontStyle.italic))),
                       processing == true
@@ -150,7 +196,7 @@ class _SupplierLoginState extends State<SupplierLogin> {
                         actionLabel: 'Sign Up',
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/customer_signup');
+                              context, '/supplier_signup');
                         },
                       ),
                     ],
@@ -164,3 +210,15 @@ class _SupplierLoginState extends State<SupplierLogin> {
     );
   }
 }
+
+var textFormDecoration = InputDecoration(
+  labelText: 'Full Name',
+  hintText: 'Enter your full name',
+  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+  enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.green, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+  focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.black, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+);

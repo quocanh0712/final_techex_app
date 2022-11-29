@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_techex_app/customer_screens/address_book.dart';
 import 'package:final_techex_app/customer_screens/customer_orders.dart';
 import 'package:final_techex_app/customer_screens/wishlist.dart';
 import 'package:final_techex_app/main_screens/cart.dart';
+import 'package:final_techex_app/minor_screen/update_password.dart';
 import 'package:final_techex_app/widgets/appbar_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,10 +22,14 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customers');
+  CollectionReference anonymous =
+      FirebaseFirestore.instance.collection('anonymous');
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
-      future: customers.doc(widget.documentId).get(),
+      future: FirebaseAuth.instance.currentUser!.isAnonymous
+          ? anonymous.doc(widget.documentId).get()
+          : customers.doc(widget.documentId).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -92,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       padding: const EdgeInsets.only(left: 25),
                                       child: Text(
                                           data['name'] == ''
-                                              ? 'guest'
+                                              ? 'guest'.toUpperCase()
                                               : data['name'].toUpperCase(),
                                           style: const TextStyle(
                                               fontSize: 24,
@@ -231,11 +237,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   const LightGreenDivider(),
                                   RepeatedListTile(
+                                    onPressed: FirebaseAuth
+                                            .instance.currentUser!.isAnonymous
+                                        ? null
+                                        : () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const AddressBook()));
+                                          },
                                     title: 'Address',
-                                    subTitle: data['address'] == ''
-                                        ? 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam'
-                                        : data['address'],
                                     icon: Icons.location_city,
+                                    subTitle: userAddress(data),
+                                    /* data['address'] == ''
+                                        ? 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam'
+                                        : data['address'], 
+                                     */
                                   ),
                                 ],
                               ),
@@ -262,7 +280,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   RepeatedListTile(
                                     title: 'Change Password',
                                     icon: Icons.lock_clock_sharp,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const UpdatePassword()));
+                                    },
                                   ),
                                   const LightGreenDivider(),
                                   RepeatedListTile(
@@ -303,6 +327,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: CircularProgressIndicator(color: Colors.purple));
       },
     );
+  }
+
+  String userAddress(dynamic data) {
+    if (FirebaseAuth.instance.currentUser!.isAnonymous == true) {
+      return 'example: 58 Nghiem Xuan Yem , Da Nang - VietNam';
+    } else if (FirebaseAuth.instance.currentUser!.isAnonymous == false &&
+        data['address'] == '') {
+      return 'Set your address';
+    }
+    return data['address'];
   }
 }
 

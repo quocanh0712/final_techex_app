@@ -1,6 +1,13 @@
+// ignore_for_file: avoid_print
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_techex_app/widgets/button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../minor_screen/forgot_password.dart';
 import '../widgets/auth_widgets.dart';
 import '../widgets/snackbar.dart';
 
@@ -12,6 +19,55 @@ class CustomerLogin extends StatefulWidget {
 }
 
 class _CustomerLoginState extends State<CustomerLogin> {
+  CollectionReference customer =
+      FirebaseFirestore.instance.collection('customers');
+
+  Future<bool> checkIfDocExits(String docId) async {
+    try {
+      var doc = await customer.doc(docId).get();
+      return doc.exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool docExits = false;
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .whenComplete(() async {
+      User user = FirebaseAuth.instance.currentUser!;
+      print(googleUser!.id);
+      print(FirebaseAuth.instance.currentUser!.uid);
+      print(googleUser);
+      print(user);
+      docExits = await checkIfDocExits(user.uid);
+
+      docExits == false ? 
+      //  _uid = FirebaseAuth.instance.currentUser!.uid;
+      await customer.doc(user.uid).set({
+        'name': user.displayName,
+        'email': user.email,
+        'profileimage': user.photoURL,
+        'phone': '',
+        'address': '',
+        'cid': user.uid,
+      }).then(
+          (value) => Navigator.pushReplacementNamed(context, '/customer_home')) : Navigator.pushReplacementNamed(context, '/customer_home');
+    });
+  }
+
   late String email;
   late String password;
 
@@ -20,6 +76,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
   bool passwordVisible = false;
+  bool sendEmailVerification = false;
 
   void logIn() async {
     setState(() {
@@ -29,10 +86,19 @@ class _CustomerLoginState extends State<CustomerLogin> {
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+        await FirebaseAuth.instance.currentUser!.reload();
+        if (FirebaseAuth.instance.currentUser!.emailVerified) {
+          _formKey.currentState!.reset();
 
-        _formKey.currentState!.reset();
-
-        Navigator.pushReplacementNamed(context, '/customer_home');
+          Navigator.pushReplacementNamed(context, '/customer_home');
+        } else {
+          MyMessageHandler.showSnackBar(
+              _scaffoldKey, 'Please verification your email.');
+          setState(() {
+            processing = false;
+            sendEmailVerification = true;
+          });
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -74,7 +140,32 @@ class _CustomerLoginState extends State<CustomerLogin> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const AuthHeaderLabel(headerLabel: 'Log In'),
-                      const SizedBox(height: 50),
+                      SizedBox(
+                        height: 50,
+                        child: sendEmailVerification == true
+                            ? Center(
+                                child: Button2(
+                                    label: 'Resend Email Verification',
+                                    onPressed: () async {
+                                      try {
+                                        await FirebaseAuth.instance.currentUser!
+                                            .sendEmailVerification();
+                                      } catch (e) {
+                                        
+                                        print(e);
+                                      }
+                                      Future.delayed(const Duration(seconds: 3))
+                                          .whenComplete(() {
+                                        setState(() {
+                                          sendEmailVerification = false;
+                                        });
+                                      });
+                                    },
+                                    width: 0.6,
+                                    buttonColor: Colors.red),
+                              )
+                            : const SizedBox(),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: TextFormField(
@@ -131,8 +222,14 @@ class _CustomerLoginState extends State<CustomerLogin> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
-                          child: const Text('Forget Password ?',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword()));
+                          },
+                          child: const Text('Forgot Password ?',
                               style: TextStyle(
                                   fontSize: 18, fontStyle: FontStyle.italic))),
                       processing == true
@@ -153,6 +250,8 @@ class _CustomerLoginState extends State<CustomerLogin> {
                               context, '/customer_signup');
                         },
                       ),
+                      divider(),
+                      googleLoginButton()
                     ],
                   ),
                 ),
@@ -163,4 +262,76 @@ class _CustomerLoginState extends State<CustomerLogin> {
       ),
     );
   }
+
+  Widget divider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          SizedBox(
+            width: 80,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+          Text(
+            '  Or  ',
+            style: TextStyle(color: Colors.grey, fontSize: 18),
+          ),
+          SizedBox(
+            width: 80,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget googleLoginButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(50, 50, 50, 20),
+      child: Material(
+        elevation: 3,
+        color: Colors.grey.shade300,
+        borderRadius: BorderRadius.circular(6),
+        child: MaterialButton(
+          onPressed: () {
+            signInWithGoogle();
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              Icon(
+                FontAwesomeIcons.google,
+                color: Colors.red,
+              ),
+              Text(
+                'Sign In With Google',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
+
+var textFormDecoration = InputDecoration(
+  labelText: 'Full Name',
+  hintText: 'Enter your full name',
+  border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+  enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.green, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+  focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.black, width: 2),
+      borderRadius: BorderRadius.circular(25)),
+);

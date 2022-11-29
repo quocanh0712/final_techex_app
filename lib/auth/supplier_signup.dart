@@ -85,6 +85,12 @@ class _SupplierRegisterState extends State<SupplierRegister> {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
 
+          try {
+            await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+          } catch (e) {
+            print(e);
+          }
+
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
               .ref('supplier_image/$email.jpg');
@@ -93,6 +99,9 @@ class _SupplierRegisterState extends State<SupplierRegister> {
           _uid = FirebaseAuth.instance.currentUser!.uid;
 
           storeLogo = await ref.getDownloadURL();
+
+          await FirebaseAuth.instance.currentUser!.updateDisplayName(storeName);
+          await FirebaseAuth.instance.currentUser!.updatePhotoURL(storeLogo);
           await suppliers.doc(_uid).set({
             'storename': storeName,
             'email': email,
@@ -292,7 +301,7 @@ class _SupplierRegisterState extends State<SupplierRegister> {
                         actionLabel: 'Log In',
                         onPressed: () {
                           Navigator.pushReplacementNamed(
-                              context, '/customer_login');
+                              context, '/supplier_login');
                         },
                       ),
                       processing == true
