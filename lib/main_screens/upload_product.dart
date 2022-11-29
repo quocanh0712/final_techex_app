@@ -102,7 +102,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   Future<void> uploadImages() async {
     if (mainCategoryValue != 'Select Category' &&
         subCategoryValue != 'SubCategory') {
-      if (_formKey.currentState!.validate() && discount == null) {
+      if (_formKey.currentState!.validate() && discount != null) {
         _formKey.currentState!.save();
 
         if (imagesFileList!.isNotEmpty) {
